@@ -3,8 +3,8 @@ import { readdirSync, statSync, unlinkSync, renameSync } from 'node:fs'
 import { join, extname, basename } from 'node:path'
 
 const DIR = join(process.cwd(), 'public', 'media', 'wuilt')
-const MAX_DIM = 1920
-const QUALITY = 78
+const MAX_DIM = 2560
+const QUALITY = 92
 
 const files = readdirSync(DIR).filter((f) => /\.(jpe?g|png)$/i.test(f))
 

@@ -271,15 +271,18 @@ html[dir="ltr"] .hero-media::after {
 }
 
 .hero-image {
-  animation: hero-drift 18s var(--ease-premium) infinite alternate;
+  /* Keep scale subtle — heavy zoom softens full-bleed photography */
+  animation: hero-drift 22s var(--ease-premium) infinite alternate;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 @keyframes hero-drift {
   from {
-    transform: scale(1.02);
+    transform: scale(1.01);
   }
   to {
-    transform: scale(1.08);
+    transform: scale(1.035);
   }
 }
 

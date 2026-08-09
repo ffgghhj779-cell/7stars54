@@ -239,8 +239,8 @@ export const CATALOG: CatalogItem[] = [
     slug: "frozen-produce",
     title: "خضروات وفواكه مجمدة",
     blurb: "خضروات وفواكه مجمدة جاهزة للتوزيع التجاري.",
-    image: "/media/wuilt/070220260331536a45dba98f2da.webp",
-    gallery: ["/media/wuilt/070220260331536a45dba98f2da.webp", "/media/wuilt/070220260426196a45e86b16180.webp", "/media/wuilt/060220231140056479d515ca477.webp", "/media/wuilt/060220231140296479d52d75e58.webp", "/media/wuilt/060220231140336479d5311ade6.webp", "/media/wuilt/060220231140366479d534f3226.webp", "/media/wuilt/060220231140406479d538be659.webp", "/media/wuilt/060220231140506479d542ca1bf.webp", "/media/wuilt/060720231046526480601cd8120.webp", "/media/wuilt/060720231047586480605e0b8c8.webp", "/media/wuilt/06072023104919648060af1dc6f.webp", "/media/wuilt/06072023105036648060fc6d9bd.webp"],
+    image: "/media/wuilt/060720231046526480601cd8120.webp",
+    gallery: ["/media/wuilt/060720231046526480601cd8120.webp", "/media/wuilt/060720231047586480605e0b8c8.webp", "/media/wuilt/06072023104919648060af1dc6f.webp", "/media/wuilt/06072023105036648060fc6d9bd.webp", "/media/wuilt/060220231140056479d515ca477.webp", "/media/wuilt/060220231140296479d52d75e58.webp", "/media/wuilt/060220231140336479d5311ade6.webp", "/media/wuilt/060220231140366479d534f3226.webp", "/media/wuilt/060220231140406479d538be659.webp", "/media/wuilt/060220231140506479d542ca1bf.webp", "/media/wuilt/070220260426196a45e86b16180.webp"],
     details: [
       { title: "#سفنث_ستار سبانخ مجمد السبانخ غنية بالعديد من المعادن التي يحتاجها جسمك بما في ذلك البوتاسيوم. إستهلاك الأطعمة الغنية با", lines: ["#سفنث_ستار سبانخ مجمد السبانخ غنية بالعديد من المعادن التي يحتاجها جسمك بما في ذلك البوتاسيوم. إستهلاك الأطعمة الغنية بالبوتاسيوم يساعد على خفض ضغط الدم. السبانخ ممتازة كمصدر للوتين، أحد مضادات الأكسدة المعروف أنه يحمي من أمراض العيون المرتبطة بالعمر مثل الضمور البقعي وإعتام عدسة العين. منتجاتنا جودة و سعر و طعم"] },
       { title: "*بدون مواد حافظة", lines: ["No preservatives *", "*غير معدلة وراثياُ", "Non-GMO *", "* غنية بفيتامين ب1 وب2 وب 12", "Rich in Vitamin B1, B2 and B12*", "* الوزن الصافي 400جرام", "* Net weight 400 grams"] },

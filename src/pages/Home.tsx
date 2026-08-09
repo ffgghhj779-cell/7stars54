@@ -106,8 +106,10 @@ export default function Home() {
             src={WUILT.hero}
             alt=""
             className="hero-image h-full w-full object-cover object-[center_40%]"
+            width={1536}
+            height={1024}
             fetchPriority="high"
-            decoding="async"
+            decoding="sync"
           />
         </div>
         <div className="premium-grid absolute inset-0 opacity-35" aria-hidden />
