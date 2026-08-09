@@ -63,10 +63,10 @@ export default function ProductCategory() {
   const mainImage = gallery[active] || item.image
 
   return (
-    <div className="w-full max-w-full overflow-x-clip bg-paper text-ink">
+    <div className="w-full max-w-full bg-paper text-ink">
       <PageTitle title={`${item.title} | سفنت ستار`} />
 
-      <section className="shell grid w-full max-w-full grid-cols-1 items-start gap-7 overflow-x-clip pb-14 pt-28 md:grid-cols-2 md:gap-14 md:pb-28 md:pt-32">
+      <section className="shell grid w-full max-w-full grid-cols-1 items-start gap-7 pb-14 pt-28 md:grid-cols-2 md:gap-14 md:pb-28 md:pt-32">
         {/* Media first on mobile */}
         <div className="order-1 w-full min-w-0 space-y-3 md:sticky md:top-28 md:order-2">
           <div className="w-full overflow-hidden bg-mist aspect-[5/4]">
