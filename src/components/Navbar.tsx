@@ -57,16 +57,22 @@ export default function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,padding] duration-500 ${
           transparent
-            ? 'border-transparent bg-transparent py-5'
-            : 'border-line/80 bg-paper/95 py-3 backdrop-blur-md'
+            ? 'border-transparent bg-transparent py-4 sm:py-5'
+            : 'border-line/80 bg-paper/95 py-2.5 backdrop-blur-md sm:py-3'
         }`}
       >
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
-          <Link to="/" className="flex items-center gap-3" aria-label="7th Star Food">
+        <div
+          className="mx-auto flex max-w-[1440px] items-center justify-between sm:px-8 lg:px-12"
+          style={{
+            paddingInlineStart: 'max(1rem, env(safe-area-inset-left))',
+            paddingInlineEnd: 'max(1rem, env(safe-area-inset-right))',
+          }}
+        >
+          <Link to="/" className="flex min-h-11 items-center gap-3" aria-label="7th Star Food">
             <img
               src={WUILT.logo}
               alt="Seventh Star Enterprises LLC"
-              className="h-12 w-auto object-contain sm:h-14"
+              className="h-10 w-auto object-contain sm:h-14"
             />
           </Link>
 
@@ -178,33 +184,33 @@ export default function Navbar() {
       </header>
 
       {open && (
-        <div className="fixed inset-0 z-40 overflow-y-auto bg-dark px-5 pb-16 pt-28 text-white lg:hidden">
+        <div className="mobile-menu-in fixed inset-0 z-40 overflow-y-auto bg-dark px-5 pb-[max(4rem,env(safe-area-inset-bottom))] pt-[max(6.5rem,calc(env(safe-area-inset-top)+5.5rem))] text-white lg:hidden">
           <div className="grain-overlay" aria-hidden />
-          <div className="glow-spot -end-24 top-0 h-[380px] w-[380px] opacity-50" aria-hidden />
-          <nav className="relative flex flex-col gap-2" aria-label="قائمة الجوال">
+          <div className="glow-spot -end-24 top-0 h-[280px] w-[280px] opacity-40" aria-hidden />
+          <nav className="relative flex flex-col gap-1" aria-label="قائمة الجوال">
             {links.map((link) =>
               link.mega ? (
-                <div key={link.to} className="border-b border-white/10 py-4">
+                <div key={link.to} className="border-b border-white/10 py-3.5">
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between text-2xl font-semibold"
+                    className="flex min-h-12 w-full items-center justify-between text-[1.65rem] font-semibold leading-tight"
                     onClick={() => setProductsOpen((v) => !v)}
                   >
                     {link.label}
-                    <span className="text-base">{productsOpen ? '−' : '+'}</span>
+                    <span className="text-base text-primary">{productsOpen ? '−' : '+'}</span>
                   </button>
                   {productsOpen && (
-                    <div className="mt-4 space-y-3 pe-2 text-base text-white/80">
+                    <div className="mt-3 space-y-1 border-s border-primary/40 pe-2 ps-4 text-base text-white/80">
                       {PRODUCT_NAV.map((node) => (
                         <div key={node.slug}>
-                          <Link to={`/products/${node.slug}`} className="block py-1.5 font-semibold">
+                          <Link to={`/products/${node.slug}`} className="block min-h-11 py-2.5 font-semibold">
                             {node.title}
                           </Link>
                           {node.children?.map((child) => (
                             <Link
                               key={child.slug}
                               to={`/products/${child.slug}`}
-                              className="block py-1.5 pe-4 text-sm text-white/60"
+                              className="block min-h-10 py-2 pe-4 text-sm text-white/60"
                             >
                               {child.title}
                             </Link>
@@ -215,14 +221,18 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                <Link key={link.to} to={link.to} className="border-b border-white/10 py-4 text-2xl font-semibold">
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="flex min-h-14 items-center border-b border-white/10 py-3.5 text-[1.65rem] font-semibold leading-tight"
+                >
                   {link.label}
                 </Link>
               ),
             )}
             <Link
               to="/contact"
-              className="mt-8 inline-flex items-center justify-center bg-primary px-6 py-4 text-sm font-bold text-dark"
+              className="btn-press mt-8 inline-flex min-h-12 items-center justify-center bg-primary px-6 py-4 text-sm font-bold text-dark"
             >
               اطلب عرض سعر
             </Link>

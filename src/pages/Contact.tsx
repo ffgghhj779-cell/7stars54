@@ -115,7 +115,7 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                className="inline-flex bg-secondary px-7 py-4 text-sm font-bold text-white transition hover:bg-primary hover:text-dark"
+                className="btn-press inline-flex min-h-12 w-full items-center justify-center bg-secondary px-7 py-4 text-sm font-bold text-white transition hover:bg-primary hover:text-dark sm:w-auto"
               >
                 إرسال عبر واتساب
               </button>
