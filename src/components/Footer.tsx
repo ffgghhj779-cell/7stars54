@@ -13,7 +13,7 @@ export default function Footer() {
             <img
               src={WUILT.logo}
               alt="Seventh Star Enterprises LLC"
-              className="h-14 w-auto object-contain"
+              className="h-16 w-auto object-contain sm:h-[4.5rem]"
             />
             <h2 className="display-title mt-6 max-w-xl text-3xl md:text-5xl">
               شريكك في توريد الأغذية بجودة تستحق الثقة.
