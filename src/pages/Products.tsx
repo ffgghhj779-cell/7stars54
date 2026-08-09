@@ -12,7 +12,10 @@ export default function Products() {
 
   return (
     <div className="bg-paper text-ink">
-      <PageTitle title="منتجاتنا | سفنت ستار" />
+      <PageTitle
+        title="منتجاتنا | سفنت ستار — فئات الفواكه، الخضروات، اللحوم والمجمدات"
+        description="استكشف كل فئات منتجات سفنت ستار: الفواكه والخضروات الطازجة، اللحوم والدجاج المجمد، الأسماك، الحبوب، الزيوت والمكسرات — بمواصفات توريد وتعبئة واضحة لكل فئة."
+      />
 
       <section className="relative overflow-hidden border-b border-line bg-dark text-white">
         <div className="premium-grid absolute inset-0 opacity-20" aria-hidden />

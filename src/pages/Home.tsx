@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import PageTitle from '../components/PageTitle'
 import ScrollReveal from '../components/ScrollReveal'
 import {
+  HOME_EXTRA_CARDS,
   HOME_PACK_GALLERY,
   HOME_PRODUCE_GALLERY,
   HOME_PRODUCT_ROWS,
@@ -49,8 +50,8 @@ const stats = [
 ]
 
 export default function Home() {
-  // Editorial selection: first two Wuilt rows (6 cards) — rest live on /products
-  const featured = [...HOME_PRODUCT_ROWS[0], ...HOME_PRODUCT_ROWS[1]]
+  // Full catalog preview — every category gets its own card on the homepage
+  const featured = [...HOME_PRODUCT_ROWS.flat(), ...HOME_EXTRA_CARDS]
   // Fewer mosaic tiles on small screens = faster paint + cleaner mobile rhythm
   const mosaicDesktop = [
     ...HOME_PACK_GALLERY.slice(0, 4),
@@ -63,7 +64,10 @@ export default function Home() {
 
   return (
     <div className="bg-paper text-ink">
-      <PageTitle title="الرئيسية | سفنت ستار" />
+      <PageTitle
+        title="سفنت ستار | 7th Star Food — تصدير وتوريد أغذية بجودة عالمية"
+        description="سفنت ستار إنتربرايزس — تصدير وتوريد الفواكه والخضروات الطازجة، اللحوم والدجاج المجمد، الأسماك، الحبوب والمزيد بجودة تصدير للأسواق الإقليمية والعالمية."
+      />
 
       <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-dark text-white">
         <div className="hero-media absolute inset-0">
@@ -144,17 +148,17 @@ export default function Home() {
               <div className="max-w-3xl">
                 <p className="eyebrow">منتجاتنا</p>
                 <h2 className="display-title mt-4 text-[1.85rem] sm:mt-5 sm:text-4xl md:text-6xl">
-                  مختارات بجودة تصدير
+                  كل فئات المنتجات في مكان واحد
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-7 text-stone sm:mt-4 sm:text-base sm:leading-8">
-                  أبرز فئاتنا للطازج والمجمد — بتغليف احترافي وتوريد بالجملة.
+                  {featured.length} فئة للطازج والمجمد — بتغليف احترافي وتوريد بالجملة، وبكارد مستقل لكل فئة.
                 </p>
               </div>
               <Link
                 to="/products"
                 className="inline-flex w-fit border-b border-secondary pb-2 text-sm font-bold text-secondary"
               >
-                كل الفئات
+                تفاصيل كل فئة ←
               </Link>
             </div>
           </ScrollReveal>
@@ -193,9 +197,7 @@ export default function Home() {
                     alt={item.alt}
                     loading="lazy"
                     decoding="async"
-                    className={`img-zoom h-full w-full ${
-                      item.src.endsWith('.png') ? 'object-contain p-3' : 'object-cover'
-                    }`}
+                    className={`img-zoom h-full w-full ${item.contain ? 'object-contain p-3' : 'object-cover'}`}
                   />
                 </div>
               </ScrollReveal>
@@ -208,9 +210,7 @@ export default function Home() {
                     alt={item.alt}
                     loading="lazy"
                     decoding="async"
-                    className={`img-zoom h-full w-full ${
-                      item.src.endsWith('.png') ? 'object-contain p-3' : 'object-cover'
-                    }`}
+                    className={`img-zoom h-full w-full ${item.contain ? 'object-contain p-3' : 'object-cover'}`}
                   />
                 </div>
               </ScrollReveal>

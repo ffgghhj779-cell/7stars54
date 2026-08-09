@@ -20,7 +20,10 @@ export default function Contact() {
 
   return (
     <div className="bg-paper text-ink">
-      <PageTitle title="تواصل معنا | سفنت ستار" />
+      <PageTitle
+        title="تواصل معنا | سفنت ستار"
+        description="تواصل مع سفنت ستار إنتربرايزس لطلبات التوريد والتصدير — عبر الهاتف، البريد الإلكتروني، واتساب أو نموذج الطلب المباشر."
+      />
 
       <section className="relative overflow-hidden border-b border-line bg-dark text-white">
         <div className="premium-grid absolute inset-0 opacity-20" aria-hidden />

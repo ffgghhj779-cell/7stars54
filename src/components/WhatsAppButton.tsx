@@ -1,5 +1,5 @@
 import { CONTACT } from '../data/site'
-import { WHATSAPP_ICON_PATH } from './SocialLinks'
+import { WHATSAPP_ICON_PATH } from '../data/social'
 
 export default function WhatsAppButton() {
   return (

@@ -1,14 +1,16 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import WhatsAppButton from './components/WhatsAppButton'
-import About from './pages/About'
-import Contact from './pages/Contact'
 import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import ProductCategory from './pages/ProductCategory'
-import Products from './pages/Products'
+
+const About = lazy(() => import('./pages/About'))
+const Contact = lazy(() => import('./pages/Contact'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+const ProductCategory = lazy(() => import('./pages/ProductCategory'))
+const Products = lazy(() => import('./pages/Products'))
 
 export default function App() {
   return (
@@ -16,14 +18,16 @@ export default function App() {
       <ScrollToTop />
       <Navbar />
       <main className="w-full max-w-full">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:slug" element={<ProductCategory />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<div className="min-h-[60svh] bg-paper" />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:slug" element={<ProductCategory />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
       <WhatsAppButton />

@@ -28,7 +28,10 @@ const proof = [
 export default function About() {
   return (
     <div className="bg-paper text-ink">
-      <PageTitle title="من نحن | سفنت ستار" />
+      <PageTitle
+        title="من نحن | سفنت ستار إنتربرايزس"
+        description="سفنت ستار إنتربرايزس ذ.م.م — شركة أغذية عاملة في الشرق الأوسط، متخصصة في توريد وتصدير المنتجات الطازجة والمجمدة بجودة عالية وشراكات تصدير موثوقة."
+      />
 
       <section className="relative overflow-hidden bg-dark text-white">
         <div className="absolute inset-0">

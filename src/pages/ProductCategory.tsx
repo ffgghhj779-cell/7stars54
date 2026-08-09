@@ -83,10 +83,15 @@ export default function ProductCategory() {
   const children = item ? getChildren(item.slug) : []
   const parent = item?.parent ? getCatalogItem(item.parent) : undefined
 
+  // Hub categories (with subcategories) rely on the children cards above as the
+  // primary navigation — only render a per-image showcase grid here if there's
+  // real, curated content for the hub itself (avoids recycling raw noisy text).
+  const showShowcase = children.length === 0 || Boolean(override?.details?.length)
+
   const showcases = useMemo(() => {
-    if (!item) return []
+    if (!item || !showShowcase) return []
     return buildShowcases(gallery, item.details)
-  }, [gallery, item])
+  }, [gallery, item, showShowcase])
 
   if (!item) {
     return (
@@ -102,7 +107,7 @@ export default function ProductCategory() {
 
   return (
     <div className="w-full max-w-full bg-paper text-ink">
-      <PageTitle title={`${item.title} | سفنت ستار`} />
+      <PageTitle title={`${item.title} | سفنت ستار`} description={item.blurb} />
 
       {/* Intro */}
       <section className="relative overflow-hidden border-b border-line bg-dark text-white">
@@ -197,6 +202,7 @@ export default function ProductCategory() {
       )}
 
       {/* Each product / image as its own card with specs */}
+      {showShowcase && (
       <section className="section-y">
         <div className="shell">
           <ScrollReveal>
@@ -274,6 +280,7 @@ export default function ProductCategory() {
           )}
         </div>
       </section>
+      )}
 
       {/* CTA */}
       <section className="relative overflow-hidden bg-dark text-white section-y-sm">

@@ -22,18 +22,18 @@ const m = (file: string) => `/media/wuilt/${file}`
 
 /** صور الموقع الأصلية بعد التصدير من Wuilt */
 export const WUILT = {
-  logo: m('070520261749366a4a993087b3c.png'),
-  heroFries: m('070120262359306a45a9e235f4a.jpg'),
-  aboutOffice: m('070220260306366a45d5bce2061.jpg'),
-  aboutProduce: m('070320262340366a4848742be4a.jpg'),
-  packShot: m('070220260331536a45dba98f2da.jpg'),
+  logo: m('070520261749366a4a993087b3c.webp'),
+  heroFries: m('070120262359306a45a9e235f4a.webp'),
+  aboutOffice: m('070220260306366a45d5bce2061.webp'),
+  aboutProduce: m('070320262340366a4848742be4a.webp'),
+  packShot: m('070220260331536a45dba98f2da.webp'),
   homeGallery: [
-    m('070720261701346a4d30eea5879.jpg'),
-    m('070320262357186a484c5e5a301.jpg'),
-    m('070320262358056a484c8d40545.jpg'),
-    m('070220260043256a45b42dcfb8c.jpg'),
-    m('070420260042276a4856f31f303.jpg'),
-    m('070420260034436a4855238cb4d.jpg'),
+    m('070720261701346a4d30eea5879.webp'),
+    m('070320262357186a484c5e5a301.webp'),
+    m('070320262358056a484c8d40545.webp'),
+    m('070220260043256a45b42dcfb8c.webp'),
+    m('070420260042276a4856f31f303.webp'),
+    m('070420260034436a4855238cb4d.webp'),
   ],
 }
 
