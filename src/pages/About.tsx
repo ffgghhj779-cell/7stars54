@@ -36,13 +36,13 @@ export default function About() {
         </div>
         <div className="premium-grid absolute inset-0 opacity-25" aria-hidden />
         <div className="grain-overlay" aria-hidden />
-        <div className="glow-spot -end-32 top-0 h-[480px] w-[480px] opacity-60" aria-hidden />
-        <div className="shell relative pb-20 pt-36">
+        <div className="glow-spot -end-32 top-0 hidden h-[480px] w-[480px] opacity-60 md:block" aria-hidden />
+        <div className="shell relative pb-14 pt-28 sm:pb-20 sm:pt-36">
           <p className="eyebrow">من نحن</p>
-          <h1 className="display-title mt-5 max-w-4xl text-4xl md:text-6xl lg:text-7xl">
+          <h1 className="display-title mt-4 max-w-4xl text-[1.85rem] sm:mt-5 sm:text-4xl md:text-6xl lg:text-7xl">
             سفنت ستار إنتربرايزس ذ.م.م
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/65 md:text-lg">
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-base sm:leading-8 md:text-lg">
             من شركات الأغذية العاملة في الشرق الأوسط — توريد طازج ومجمد بجودة عالية وشراكات تصدير موثوقة.
           </p>
         </div>

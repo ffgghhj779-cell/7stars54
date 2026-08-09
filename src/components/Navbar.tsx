@@ -72,7 +72,7 @@ export default function Navbar() {
             <img
               src={WUILT.logo}
               alt="Seventh Star Enterprises LLC"
-              className="h-12 w-auto object-contain sm:h-16"
+              className="h-12 w-auto max-w-[min(180px,58vw)] object-contain sm:h-16 sm:max-w-none"
             />
           </Link>
 

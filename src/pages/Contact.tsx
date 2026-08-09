@@ -25,13 +25,13 @@ export default function Contact() {
       <section className="relative overflow-hidden border-b border-line bg-dark text-white">
         <div className="premium-grid absolute inset-0 opacity-20" aria-hidden />
         <div className="grain-overlay" aria-hidden />
-        <div className="glow-spot -end-32 top-0 h-[440px] w-[440px] opacity-60" aria-hidden />
-        <div className="shell relative pb-16 pt-36">
+        <div className="glow-spot -end-32 top-0 hidden h-[440px] w-[440px] opacity-60 md:block" aria-hidden />
+        <div className="shell relative pb-12 pt-28 sm:pb-16 sm:pt-36">
           <p className="eyebrow">تواصل معنا</p>
-          <h1 className="display-title mt-5 max-w-3xl text-4xl md:text-6xl">
+          <h1 className="display-title mt-4 max-w-3xl text-[1.85rem] sm:mt-5 sm:text-4xl md:text-6xl">
             نحن هنا لاستفساراتك وطلبات التوريد.
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-8 text-white/60">
+          <p className="mt-4 max-w-xl text-sm leading-7 text-white/60 sm:mt-6 sm:text-base sm:leading-8">
             أرسل تفاصيل الطلب عبر النموذج أو واتساب — ونرجع لك في أقرب وقت.
           </p>
         </div>

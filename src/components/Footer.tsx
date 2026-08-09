@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-dark text-white">
       <div className="grain-overlay" aria-hidden />
-      <div className="glow-spot -end-40 -top-24 h-[420px] w-[420px] opacity-40" aria-hidden />
+      <div className="glow-spot -end-40 -top-24 hidden h-[420px] w-[420px] opacity-40 md:block" aria-hidden />
       <div className="shell section-y-sm relative">
         <div className="grid gap-14 border-b border-white/10 pb-16 lg:grid-cols-[1.4fr_0.7fr_0.8fr]">
           <div>
