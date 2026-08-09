@@ -13,8 +13,7 @@ const FRESH_FRUITS_TITLE = { ar: 'الفواكه الطازجة', en: 'Fresh Fru
 const FROZEN_CHICKEN_TITLE = { ar: 'الدجاج المجمد', en: 'Frozen Chicken' }
 
 export default function Footer() {
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix } = useLanguage()
 
   return (
     <footer className="relative overflow-hidden bg-dark text-white">

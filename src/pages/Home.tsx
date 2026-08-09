@@ -70,8 +70,7 @@ const stats = {
 }
 
 export default function Home() {
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix } = useLanguage()
 
   // Full catalog preview — every category gets its own card on the homepage
   const featured = [...HOME_PRODUCT_ROWS.flat(), ...HOME_EXTRA_CARDS]

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, type ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
-import { deriveLang, deriveOtherPath, LanguageContext, makeContextValue } from './language'
+import { deriveLang, LanguageContext, makeContextValue } from './language'
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const location = useLocation()
@@ -13,7 +13,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [lang, dir])
 
   const value = useMemo(
-    () => makeContextValue(lang, dir, deriveOtherPath(location.pathname, lang)),
+    () => makeContextValue(lang, dir, location.pathname),
     [lang, dir, location.pathname],
   )
 

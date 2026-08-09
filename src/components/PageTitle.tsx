@@ -47,19 +47,18 @@ type Props = {
 }
 
 export default function PageTitle({ title, description }: Props) {
-  const { lang } = useLanguage()
+  const { lang, barePath, pathFor } = useLanguage()
 
   useEffect(() => {
     const path = window.location.pathname
-    const isEn = path === '/en' || path.startsWith('/en/')
-    const arPath = isEn ? path.replace(/^\/en/, '') || '/' : path
-    const enPath = isEn ? path : path === '/' ? '/en' : `/en${path}`
+    const arPath = pathFor('ar', barePath)
+    const enPath = pathFor('en', barePath)
 
     const fallback =
-      arPath.startsWith('/products/')
+      barePath.startsWith('/products/')
         ? { ar: 'تفاصيل المنتج | سفنت ستار', en: 'Product Details | Seventh Star' }
         : { ar: 'سفنت ستار | 7th Star Food', en: 'Seventh Star | 7th Star Food' }
-    const matched = title || TITLES[arPath]?.[lang] || fallback[lang]
+    const matched = title || TITLES[barePath]?.[lang] || fallback[lang]
     document.title = matched
 
     const canonicalUrl = `${SITE_URL}${path === '/' ? '' : path}`
@@ -70,15 +69,15 @@ export default function PageTitle({ title, description }: Props) {
     setMeta('name', 'twitter:title', matched)
 
     setAlternate('ar', `${SITE_URL}${arPath === '/' ? '' : arPath}`)
-    setAlternate('en', `${SITE_URL}${enPath}`)
-    setAlternate('x-default', `${SITE_URL}${arPath === '/' ? '' : arPath}`)
+    setAlternate('en', `${SITE_URL}${enPath === '/' ? '' : enPath}`)
+    setAlternate('x-default', `${SITE_URL}${enPath === '/' ? '' : enPath}`)
 
     if (description) {
       setMeta('name', 'description', description)
       setMeta('property', 'og:description', description)
       setMeta('name', 'twitter:description', description)
     }
-  }, [title, description, lang])
+  }, [title, description, lang, barePath, pathFor])
 
   return null
 }

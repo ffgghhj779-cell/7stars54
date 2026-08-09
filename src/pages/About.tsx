@@ -51,8 +51,7 @@ const proof = {
 }
 
 export default function About() {
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix } = useLanguage()
 
   return (
     <div className="bg-paper text-ink">

@@ -21,8 +21,7 @@ function formatCount(
 }
 
 export default function Products() {
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix } = useLanguage()
   const items = PRODUCT_NAV.flatMap((node) => {
     const item = getCatalogItem(node.slug)
     return item ? [{ node, item }] : []

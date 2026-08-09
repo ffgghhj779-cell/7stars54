@@ -3,8 +3,7 @@ import PageTitle from '../components/PageTitle'
 import { useLanguage } from '../i18n/language'
 
 export default function NotFound() {
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix } = useLanguage()
 
   return (
     <div className="relative overflow-hidden bg-dark text-white">
@@ -25,7 +24,7 @@ export default function NotFound() {
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link
-            to={`${prefix}/`}
+            to={prefix || '/'}
             className="inline-flex bg-primary px-7 py-4 text-sm font-bold text-dark transition hover:bg-white"
           >
             {t('home')}

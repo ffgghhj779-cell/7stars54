@@ -69,8 +69,7 @@ function buildShowcases(gallery: string[], details: CatalogBlock[], lang: Lang):
 
 export default function ProductCategory() {
   const { slug } = useParams()
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix } = useLanguage()
   const raw = slug ? getCatalogItem(slug) : undefined
   const override = slug ? CATALOG_OVERRIDES[slug] : undefined
   const enOverride = slug ? CATALOG_EN[slug] : undefined

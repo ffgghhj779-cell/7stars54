@@ -12,22 +12,21 @@ export default function Navbar() {
   const [productsOpen, setProductsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-  const { lang, t } = useLanguage()
-  const prefix = lang === 'en' ? '/en' : ''
+  const { lang, t, prefix, barePath } = useLanguage()
   const productTitle = (slug: string, arTitle: string) =>
     lang === 'en' ? CATALOG_EN[slug]?.title || arTitle : arTitle
 
+  const homePath = prefix || '/'
   const links = [
-    { to: `${prefix}/`, label: t('navHome') },
+    { to: homePath, label: t('navHome') },
     { to: `${prefix}/about`, label: t('navAbout') },
     { to: `${prefix}/products`, label: t('navProducts'), mega: true },
     { to: `${prefix}/contact`, label: t('navContact') },
   ]
 
-  const bareLocation = lang === 'en' ? location.pathname.replace(/^\/en/, '') || '/' : location.pathname
-  const isHome = bareLocation === '/'
+  const isHome = barePath === '/'
   const isDarkHero =
-    isHome || bareLocation === '/about' || bareLocation === '/products' || bareLocation === '/contact'
+    isHome || barePath === '/about' || barePath === '/products' || barePath === '/contact'
   const transparent = open || (isDarkHero && !scrolled)
 
   useEffect(() => {
@@ -40,7 +39,6 @@ export default function Navbar() {
   useEffect(() => {
     setOpen(false)
     setProductsOpen(false)
-    // Clear any leftover scroll/touch lock (can freeze mobile Safari)
     document.body.classList.remove('is-nav-locked')
     document.body.style.overflow = ''
     document.documentElement.style.overflow = ''
@@ -66,31 +64,44 @@ export default function Navbar() {
         ? 'text-ink'
         : 'text-ink/65 hover:text-ink'
 
+  const brandNameTone = transparent ? 'text-white' : 'text-ink'
+  const brandSloganTone = transparent ? 'text-white/72' : 'text-stone'
+
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,padding] duration-500 ${
           transparent
-            ? 'border-transparent bg-transparent py-4 sm:py-5'
-            : 'border-line/80 bg-paper/95 py-2.5 backdrop-blur-md sm:py-3'
+            ? 'border-transparent bg-transparent py-3 sm:py-4'
+            : 'border-line/80 bg-paper/95 py-2 backdrop-blur-md sm:py-2.5'
         }`}
       >
         <div
-          className="mx-auto flex max-w-[1440px] items-center justify-between sm:px-8 lg:px-12"
+          className="mx-auto flex max-w-[1440px] items-center gap-3 sm:gap-4 lg:gap-6"
           style={{
             paddingInlineStart: 'max(1rem, env(safe-area-inset-left))',
             paddingInlineEnd: 'max(1rem, env(safe-area-inset-right))',
           }}
         >
-          <Link to={`${prefix}/`} className="flex min-h-11 items-center gap-3" aria-label="7th Star Food">
+          <Link
+            to={homePath}
+            className="brand-lockup group flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3.5 lg:flex-none"
+            aria-label={`${t('brandName')} — ${t('brandSlogan')}`}
+          >
             <img
               src={WUILT.logo}
-              alt="Seventh Star Enterprises LLC"
-              className="h-12 w-auto max-w-[min(180px,58vw)] object-contain sm:h-16 sm:max-w-none"
+              alt=""
+              className="brand-lockup__mark h-10 w-auto shrink-0 object-contain sm:h-12 lg:h-14"
             />
+            <span className="brand-lockup__text min-w-0">
+              <span className={`brand-lockup__name block truncate ${brandNameTone}`}>{t('brandName')}</span>
+              <span className={`brand-lockup__slogan block truncate ${brandSloganTone}`}>
+                {t('brandSlogan')}
+              </span>
+            </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label={t('mainMenu')}>
+          <nav className="hidden items-center gap-7 xl:gap-8 lg:flex" aria-label={t('mainMenu')}>
             {links.map((link) =>
               link.mega ? (
                 <div
@@ -103,7 +114,7 @@ export default function Navbar() {
                     to={link.to}
                     className={({ isActive }) =>
                       `relative inline-flex items-center gap-1.5 py-2 text-[13px] font-semibold transition-colors ${linkTone(
-                        isActive || bareLocation.startsWith('/products'),
+                        isActive || barePath.startsWith('/products'),
                       )}`
                     }
                   >
@@ -144,7 +155,7 @@ export default function Navbar() {
                 <NavLink
                   key={link.to}
                   to={link.to}
-                  end={link.to === `${prefix}/`}
+                  end={link.to === homePath}
                   className={({ isActive }) =>
                     `relative py-2 text-[13px] font-semibold transition-colors ${linkTone(isActive)}`
                   }
@@ -164,37 +175,44 @@ export default function Navbar() {
             )}
           </nav>
 
-          <div className="hidden items-center gap-3 xl:gap-4 lg:flex">
-            <SocialLinks tone={transparent ? 'light' : 'dark'} />
+          <div className="ms-auto flex shrink-0 items-center gap-2 sm:gap-3">
             <LanguageSwitcher tone={transparent ? 'light' : 'dark'} />
-            <Link
-              to={`${prefix}/contact`}
-              className={`inline-flex items-center border px-5 py-3 text-xs font-bold transition-colors ${
-                transparent
-                  ? 'border-white/35 text-white hover:border-primary hover:bg-primary hover:text-dark'
-                  : 'border-secondary bg-secondary text-white hover:border-primary hover:bg-primary hover:text-dark'
-              }`}
-            >
-              {t('requestQuote')}
-            </Link>
-          </div>
 
-          <button
-            type="button"
-            className={`inline-flex h-11 w-11 items-center justify-center lg:hidden ${
-              transparent ? 'text-white' : 'text-ink'
-            }`}
-            aria-label={open ? t('closeMenu') : t('openMenu')}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span className="sr-only">{t('menu')}</span>
-            <div className="flex w-5 flex-col gap-1.5">
-              <span className={`h-px w-full bg-current transition ${open ? 'translate-y-[3.5px] rotate-45' : ''}`} />
-              <span className={`h-px w-full bg-current transition ${open ? 'opacity-0' : ''}`} />
-              <span className={`h-px w-full bg-current transition ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`} />
+            <div className="hidden items-center gap-3 xl:gap-4 lg:flex">
+              <SocialLinks tone={transparent ? 'light' : 'dark'} />
+              <Link
+                to={`${prefix}/contact`}
+                className={`inline-flex items-center border px-5 py-3 text-xs font-bold transition-colors ${
+                  transparent
+                    ? 'border-white/35 text-white hover:border-primary hover:bg-primary hover:text-dark'
+                    : 'border-secondary bg-secondary text-white hover:border-primary hover:bg-primary hover:text-dark'
+                }`}
+              >
+                {t('requestQuote')}
+              </Link>
             </div>
-          </button>
+
+            <button
+              type="button"
+              className={`inline-flex h-10 w-10 items-center justify-center lg:hidden ${
+                transparent ? 'text-white' : 'text-ink'
+              }`}
+              aria-label={open ? t('closeMenu') : t('openMenu')}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+            >
+              <span className="sr-only">{t('menu')}</span>
+              <div className="flex w-5 flex-col gap-1.5">
+                <span
+                  className={`h-px w-full bg-current transition ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
+                />
+                <span className={`h-px w-full bg-current transition ${open ? 'opacity-0' : ''}`} />
+                <span
+                  className={`h-px w-full bg-current transition ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
+                />
+              </div>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -251,9 +269,8 @@ export default function Navbar() {
             >
               {t('requestQuote')}
             </Link>
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-8">
               <SocialLinks tone="light" />
-              <LanguageSwitcher tone="light" />
             </div>
           </nav>
         </div>

@@ -41,6 +41,10 @@ export const STRINGS = {
   aboutEyebrow: { ar: 'من نحن', en: 'About Us' },
 
   switchToEn: { ar: 'English', en: 'العربية' },
+  langEn: { ar: 'EN', en: 'EN' },
+  langAr: { ar: 'ع', en: 'ع' },
+  brandName: { ar: 'سفنت ستار', en: 'Seventh Star' },
+  brandSlogan: { ar: 'أغذية بجودة تستحق التصدير', en: 'Food quality worth exporting' },
 } satisfies Record<string, Entry>
 
 export type StringKey = keyof typeof STRINGS
