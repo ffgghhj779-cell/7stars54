@@ -115,7 +115,7 @@ export default function ProductCategory() {
   if (!item) {
     return (
       <div className="mx-auto max-w-3xl px-5 py-40 text-center">
-        <PageTitle title={lang === 'ar' ? 'القسم غير موجود | سفنت ستار' : 'Category Not Found | Seventh Star'} />
+        <PageTitle title={lang === 'ar' ? 'القسم غير موجود | النجمة السابعة' : 'Category Not Found | Seventh Star'} />
         <h1 className="display-title text-3xl">{lang === 'ar' ? 'القسم غير موجود' : 'Category Not Found'}</h1>
         <Link to={`${prefix}/products`} className="mt-6 inline-flex font-bold text-secondary">
           {t('backToProducts')}
@@ -126,7 +126,7 @@ export default function ProductCategory() {
 
   return (
     <div className="w-full max-w-full bg-paper text-ink">
-      <PageTitle title={`${item.title} | ${lang === 'ar' ? 'سفنت ستار' : 'Seventh Star'}`} description={item.blurb} />
+      <PageTitle title={`${item.title} | ${lang === 'ar' ? 'النجمة السابعة' : 'Seventh Star'}`} description={item.blurb} />
 
       {/* Intro */}
       <section className="relative overflow-hidden border-b border-line bg-dark text-white">

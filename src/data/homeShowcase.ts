@@ -101,7 +101,7 @@ export const HOME_PRODUCT_ROWS: HomeCard[][] = [
 /** Packaged / frozen product shots from homepage */
 export const HOME_PACK_GALLERY: HomeGalleryItem[] = [
   { src: '/media/wuilt/070320262357186a484c5e5a301.webp', alt: 'خضروات مشكلة مجمدة', altEn: 'Frozen mixed vegetables' },
-  { src: '/media/wuilt/060220231140056479d515ca477.webp', alt: 'منتج مجمد سفنت ستار', altEn: 'Seventh Star frozen product' },
+  { src: '/media/wuilt/060220231140056479d515ca477.webp', alt: 'منتج مجمد النجمة السابعة', altEn: 'Seventh Star frozen product' },
   { src: '/media/wuilt/060220231140176479d5215947b.webp', alt: 'ورق عنب', altEn: 'Grape leaves' },
   { src: '/media/wuilt/060220231140216479d5258b346.webp', alt: 'موزاريلا مبشورة', altEn: 'Shredded mozzarella' },
   { src: '/media/wuilt/060220231140256479d529e2851.webp', alt: 'ذرة حلوة', altEn: 'Sweet corn' },

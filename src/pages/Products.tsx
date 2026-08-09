@@ -32,12 +32,12 @@ export default function Products() {
       <PageTitle
         title={
           lang === 'ar'
-            ? 'منتجاتنا | سفنت ستار — فئات الفواكه، الخضروات، اللحوم والمجمدات'
+            ? 'منتجاتنا | النجمة السابعة — فئات الفواكه، الخضروات، اللحوم والمجمدات'
             : 'Our Products | Seventh Star — Fruits, Vegetables, Meat & Frozen Categories'
         }
         description={
           lang === 'ar'
-            ? 'استكشف كل فئات منتجات سفنت ستار: الفواكه والخضروات الطازجة، اللحوم والدجاج المجمد، الأسماك، الحبوب، الزيوت والمكسرات — بمواصفات توريد وتعبئة واضحة لكل فئة.'
+            ? 'استكشف كل فئات منتجات النجمة السابعة: الفواكه والخضروات الطازجة، اللحوم والدجاج المجمد، الأسماك، الحبوب، الزيوت والمكسرات — بمواصفات توريد وتعبئة واضحة لكل فئة.'
             : 'Explore every Seventh Star product category: fresh fruits and vegetables, frozen meat and chicken, seafood, grains, oils and nuts — with clear supply and packing specifications for each category.'
         }
       />

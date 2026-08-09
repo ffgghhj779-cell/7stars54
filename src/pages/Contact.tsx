@@ -27,10 +27,10 @@ export default function Contact() {
   return (
     <div className="bg-paper text-ink">
       <PageTitle
-        title={lang === 'ar' ? 'تواصل معنا | سفنت ستار' : 'Contact Us | Seventh Star'}
+        title={lang === 'ar' ? 'تواصل معنا | النجمة السابعة' : 'Contact Us | Seventh Star'}
         description={
           lang === 'ar'
-            ? 'تواصل مع سفنت ستار إنتربرايزس لطلبات التوريد والتصدير — عبر الهاتف، البريد الإلكتروني، واتساب أو نموذج الطلب المباشر.'
+            ? 'تواصل مع شركة النجمة السابعة لطلبات التوريد والتصدير — عبر الهاتف، البريد الإلكتروني، واتساب أو نموذج الطلب المباشر.'
             : 'Contact Seventh Star Enterprises for supply and export requests — by phone, email, WhatsApp, or the direct order form.'
         }
       />

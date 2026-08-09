@@ -89,12 +89,12 @@ export default function Home() {
       <PageTitle
         title={
           lang === 'ar'
-            ? 'سفنت ستار | 7th Star Food — تصدير وتوريد أغذية بجودة عالمية'
+            ? 'النجمة السابعة | 7th Star Food — تصدير وتوريد أغذية بجودة عالمية'
             : 'Seventh Star | 7th Star Food — World-Class Food Export & Supply'
         }
         description={
           lang === 'ar'
-            ? 'سفنت ستار إنتربرايزس — تصدير وتوريد الفواكه والخضروات الطازجة، اللحوم والدجاج المجمد، الأسماك، الحبوب والمزيد بجودة تصدير للأسواق الإقليمية والعالمية.'
+            ? 'شركة النجمة السابعة — تصدير وتوريد الفواكه والخضروات الطازجة، اللحوم والدجاج المجمد، الأسماك، الحبوب والمزيد بجودة تصدير للأسواق الإقليمية والعالمية.'
             : 'Seventh Star Enterprises — exporting and supplying fresh fruits and vegetables, frozen meat and chicken, seafood, grains and more at export quality for regional and global markets.'
         }
       />
@@ -261,7 +261,7 @@ export default function Home() {
             <div className="group overflow-hidden aspect-[4/5] md:aspect-[5/6]">
               <img
                 src={WUILT.aboutOffice}
-                alt={lang === 'ar' ? 'مقر سفنت ستار' : 'Seventh Star headquarters'}
+                alt={lang === 'ar' ? 'مقر النجمة السابعة' : 'Seventh Star headquarters'}
                 loading="lazy"
                 decoding="async"
                 className="img-zoom h-full w-full object-cover"

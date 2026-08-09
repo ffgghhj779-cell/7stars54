@@ -43,7 +43,7 @@ export const STRINGS = {
   switchToEn: { ar: 'English', en: 'العربية' },
   langEn: { ar: 'EN', en: 'EN' },
   langAr: { ar: 'ع', en: 'ع' },
-  brandName: { ar: 'سفنت ستار', en: 'Seventh Star' },
+  brandName: { ar: 'النجمة السابعة', en: 'Seventh Star' },
   brandSlogan: { ar: 'جودة تستحق التصدير', en: 'Export quality food' },
 } satisfies Record<string, Entry>
 

@@ -7,7 +7,7 @@ export default function NotFound() {
 
   return (
     <div className="relative overflow-hidden bg-dark text-white">
-      <PageTitle title={lang === 'ar' ? 'الصفحة غير موجودة | سفنت ستار' : 'Page Not Found | Seventh Star'} />
+      <PageTitle title={lang === 'ar' ? 'الصفحة غير موجودة | النجمة السابعة' : 'Page Not Found | Seventh Star'} />
       <div className="premium-grid absolute inset-0 opacity-20" aria-hidden />
       <div className="grain-overlay" aria-hidden />
       <div className="glow-spot -end-32 top-10 h-[420px] w-[420px] opacity-60" aria-hidden />

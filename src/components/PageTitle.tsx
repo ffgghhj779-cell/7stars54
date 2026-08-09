@@ -4,10 +4,10 @@ import { useLanguage } from '../i18n/language'
 const SITE_URL = 'https://7thstarfood.com'
 
 const TITLES: Record<string, { ar: string; en: string }> = {
-  '/': { ar: 'الرئيسية | سفنت ستار', en: 'Home | Seventh Star' },
-  '/about': { ar: 'من نحن | سفنت ستار', en: 'About Us | Seventh Star' },
-  '/products': { ar: 'منتجاتنا | سفنت ستار', en: 'Our Products | Seventh Star' },
-  '/contact': { ar: 'تواصل معنا | سفنت ستار', en: 'Contact Us | Seventh Star' },
+  '/': { ar: 'الرئيسية | النجمة السابعة', en: 'Home | Seventh Star' },
+  '/about': { ar: 'من نحن | النجمة السابعة', en: 'About Us | Seventh Star' },
+  '/products': { ar: 'منتجاتنا | النجمة السابعة', en: 'Our Products | Seventh Star' },
+  '/contact': { ar: 'تواصل معنا | النجمة السابعة', en: 'Contact Us | Seventh Star' },
 }
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
@@ -56,8 +56,8 @@ export default function PageTitle({ title, description }: Props) {
 
     const fallback =
       barePath.startsWith('/products/')
-        ? { ar: 'تفاصيل المنتج | سفنت ستار', en: 'Product Details | Seventh Star' }
-        : { ar: 'سفنت ستار | 7th Star Food', en: 'Seventh Star | 7th Star Food' }
+        ? { ar: 'تفاصيل المنتج | النجمة السابعة', en: 'Product Details | Seventh Star' }
+        : { ar: 'النجمة السابعة | 7th Star Food', en: 'Seventh Star | 7th Star Food' }
     const matched = title || TITLES[barePath]?.[lang] || fallback[lang]
     document.title = matched
 

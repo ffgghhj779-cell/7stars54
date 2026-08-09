@@ -56,10 +56,10 @@ export default function About() {
   return (
     <div className="bg-paper text-ink">
       <PageTitle
-        title={lang === 'ar' ? 'من نحن | سفنت ستار إنتربرايزس' : 'About Us | Seventh Star Enterprises'}
+        title={lang === 'ar' ? 'من نحن | شركة النجمة السابعة' : 'About Us | Seventh Star Enterprises'}
         description={
           lang === 'ar'
-            ? 'سفنت ستار إنتربرايزس ذ.م.م — شركة أغذية عاملة في الشرق الأوسط، متخصصة في توريد وتصدير المنتجات الطازجة والمجمدة بجودة عالية وشراكات تصدير موثوقة.'
+            ? 'شركة النجمة السابعة ذ.م.م — شركة أغذية عاملة في الشرق الأوسط، متخصصة في توريد وتصدير المنتجات الطازجة والمجمدة بجودة عالية وشراكات تصدير موثوقة.'
             : 'Seventh Star Enterprises LLC — a food company operating in the Middle East, specializing in the supply and export of fresh and frozen products with high quality and trusted export partnerships.'
         }
       />
@@ -74,7 +74,7 @@ export default function About() {
         <div className="shell relative pb-14 pt-28 sm:pb-20 sm:pt-36">
           <p className="eyebrow">{t('aboutEyebrow')}</p>
           <h1 className="display-title mt-4 max-w-4xl text-[1.85rem] sm:mt-5 sm:text-4xl md:text-6xl lg:text-7xl">
-            {lang === 'ar' ? 'سفنت ستار إنتربرايزس ذ.م.م' : 'Seventh Star Enterprises LLC'}
+            {lang === 'ar' ? 'شركة النجمة السابعة ذ.م.م' : 'Seventh Star Enterprises LLC'}
           </h1>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-base sm:leading-8 md:text-lg">
             {lang === 'ar'
@@ -90,7 +90,7 @@ export default function About() {
             <div className="group overflow-hidden">
               <img
                 src={WUILT.aboutOffice}
-                alt={lang === 'ar' ? 'مكاتب سفنت ستار' : 'Seventh Star offices'}
+                alt={lang === 'ar' ? 'مكاتب النجمة السابعة' : 'Seventh Star offices'}
                 className="img-zoom aspect-[5/4] w-full object-cover"
                 loading="lazy"
               />
