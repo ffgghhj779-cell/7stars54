@@ -103,9 +103,9 @@ export default function Home() {
       <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-dark text-white">
         <div className="hero-media absolute inset-0">
           <img
-            src={WUILT.heroFries}
+            src={WUILT.hero}
             alt=""
-            className="hero-image h-full w-full object-cover object-[center_35%] sm:object-center"
+            className="hero-image h-full w-full object-cover object-[center_40%]"
             fetchPriority="high"
             decoding="async"
           />
