@@ -55,4 +55,12 @@ export const SITE_COPY = {
   aboutLead:
     'سفنت ستار إنتربرايزس من الشركات العاملة في توريد وتصدير الأغذية بالشرق الأوسط، مع تركيز واضح على جودة المنتج، التغليف، والدعم اللوجستي للشركاء التجاريين.',
   motto: 'إن القيام بعمل جديد يجلب قوة جديدة.',
+
+  homeHeadlineEn: 'Seventh Star',
+  homeSubEn: 'Food quality worth exporting.',
+  homeLeadEn:
+    'We supply fresh and frozen products to regional and global markets — with professional packaging and disciplined supply chains.',
+  aboutLeadEn:
+    'Seventh Star Enterprises is a food company operating across the Middle East, with a clear focus on product quality, packaging, and logistics support for our trade partners.',
+  mottoEn: 'Undertaking something new brings new strength.',
 }

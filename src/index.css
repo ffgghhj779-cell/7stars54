@@ -57,6 +57,10 @@ body {
   touch-action: manipulation;
 }
 
+html[dir="ltr"] body {
+  font-family: "Manrope", sans-serif;
+}
+
 #root {
   width: 100%;
   max-width: 100%;
@@ -224,6 +228,11 @@ img {
 [dir="rtl"] .eyebrow {
   letter-spacing: 0.04em;
   text-transform: none;
+}
+
+[dir="rtl"] .eyebrow.display-en {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .hero-media::after {

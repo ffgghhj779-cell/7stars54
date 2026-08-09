@@ -1,27 +1,33 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { PRODUCT_NAV } from '../data/catalog'
+import { CATALOG_EN } from '../data/catalog.en'
 import { WUILT } from '../data/site'
+import { useLanguage } from '../i18n/language'
+import LanguageSwitcher from './LanguageSwitcher'
 import SocialLinks from './SocialLinks'
-
-const links = [
-  { to: '/', label: 'الرئيسية' },
-  { to: '/about', label: 'من نحن' },
-  { to: '/products', label: 'منتجاتنا', mega: true },
-  { to: '/contact', label: 'تواصل معنا' },
-]
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-  const isHome = location.pathname === '/'
+  const { lang, t } = useLanguage()
+  const prefix = lang === 'en' ? '/en' : ''
+  const productTitle = (slug: string, arTitle: string) =>
+    lang === 'en' ? CATALOG_EN[slug]?.title || arTitle : arTitle
+
+  const links = [
+    { to: `${prefix}/`, label: t('navHome') },
+    { to: `${prefix}/about`, label: t('navAbout') },
+    { to: `${prefix}/products`, label: t('navProducts'), mega: true },
+    { to: `${prefix}/contact`, label: t('navContact') },
+  ]
+
+  const bareLocation = lang === 'en' ? location.pathname.replace(/^\/en/, '') || '/' : location.pathname
+  const isHome = bareLocation === '/'
   const isDarkHero =
-    isHome ||
-    location.pathname === '/about' ||
-    location.pathname === '/products' ||
-    location.pathname === '/contact'
+    isHome || bareLocation === '/about' || bareLocation === '/products' || bareLocation === '/contact'
   const transparent = open || (isDarkHero && !scrolled)
 
   useEffect(() => {
@@ -76,7 +82,7 @@ export default function Navbar() {
             paddingInlineEnd: 'max(1rem, env(safe-area-inset-right))',
           }}
         >
-          <Link to="/" className="flex min-h-11 items-center gap-3" aria-label="7th Star Food">
+          <Link to={`${prefix}/`} className="flex min-h-11 items-center gap-3" aria-label="7th Star Food">
             <img
               src={WUILT.logo}
               alt="Seventh Star Enterprises LLC"
@@ -84,7 +90,7 @@ export default function Navbar() {
             />
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label="القائمة الرئيسية">
+          <nav className="hidden items-center gap-8 lg:flex" aria-label={t('mainMenu')}>
             {links.map((link) =>
               link.mega ? (
                 <div
@@ -97,7 +103,7 @@ export default function Navbar() {
                     to={link.to}
                     className={({ isActive }) =>
                       `relative inline-flex items-center gap-1.5 py-2 text-[13px] font-semibold transition-colors ${linkTone(
-                        isActive || location.pathname.startsWith('/products'),
+                        isActive || bareLocation.startsWith('/products'),
                       )}`
                     }
                   >
@@ -110,10 +116,10 @@ export default function Navbar() {
                       {PRODUCT_NAV.map((node) => (
                         <div key={node.slug} className="group/item relative">
                           <Link
-                            to={`/products/${node.slug}`}
+                            to={`${prefix}/products/${node.slug}`}
                             className="flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-ink/80 transition hover:bg-light hover:text-secondary"
                           >
-                            <span>{node.title}</span>
+                            <span>{productTitle(node.slug, node.title)}</span>
                             {node.children?.length ? <span className="text-xs text-stone">‹</span> : null}
                           </Link>
                           {node.children?.length ? (
@@ -121,10 +127,10 @@ export default function Navbar() {
                               {node.children.map((child) => (
                                 <Link
                                   key={child.slug}
-                                  to={`/products/${child.slug}`}
+                                  to={`${prefix}/products/${child.slug}`}
                                   className="block px-4 py-2.5 text-sm text-ink/75 transition hover:bg-light hover:text-secondary"
                                 >
-                                  {child.title}
+                                  {productTitle(child.slug, child.title)}
                                 </Link>
                               ))}
                             </div>
@@ -138,7 +144,7 @@ export default function Navbar() {
                 <NavLink
                   key={link.to}
                   to={link.to}
-                  end={link.to === '/'}
+                  end={link.to === `${prefix}/`}
                   className={({ isActive }) =>
                     `relative py-2 text-[13px] font-semibold transition-colors ${linkTone(isActive)}`
                   }
@@ -160,15 +166,16 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-3 xl:gap-4 lg:flex">
             <SocialLinks tone={transparent ? 'light' : 'dark'} />
+            <LanguageSwitcher tone={transparent ? 'light' : 'dark'} />
             <Link
-              to="/contact"
+              to={`${prefix}/contact`}
               className={`inline-flex items-center border px-5 py-3 text-xs font-bold transition-colors ${
                 transparent
                   ? 'border-white/35 text-white hover:border-primary hover:bg-primary hover:text-dark'
                   : 'border-secondary bg-secondary text-white hover:border-primary hover:bg-primary hover:text-dark'
               }`}
             >
-              اطلب عرض سعر
+              {t('requestQuote')}
             </Link>
           </div>
 
@@ -177,11 +184,11 @@ export default function Navbar() {
             className={`inline-flex h-11 w-11 items-center justify-center lg:hidden ${
               transparent ? 'text-white' : 'text-ink'
             }`}
-            aria-label={open ? 'إغلاق القائمة' : 'فتح القائمة'}
+            aria-label={open ? t('closeMenu') : t('openMenu')}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
-            <span className="sr-only">القائمة</span>
+            <span className="sr-only">{t('menu')}</span>
             <div className="flex w-5 flex-col gap-1.5">
               <span className={`h-px w-full bg-current transition ${open ? 'translate-y-[3.5px] rotate-45' : ''}`} />
               <span className={`h-px w-full bg-current transition ${open ? 'opacity-0' : ''}`} />
@@ -195,7 +202,7 @@ export default function Navbar() {
         <div className="mobile-menu-in fixed inset-0 z-40 overflow-y-auto bg-dark px-5 pb-[max(4rem,env(safe-area-inset-bottom))] pt-[max(6.5rem,calc(env(safe-area-inset-top)+5.5rem))] text-white lg:hidden">
           <div className="grain-overlay" aria-hidden />
           <div className="glow-spot -end-24 top-0 h-[280px] w-[280px] opacity-40" aria-hidden />
-          <nav className="relative flex flex-col gap-1" aria-label="قائمة الجوال">
+          <nav className="relative flex flex-col gap-1" aria-label={t('mobileMenu')}>
             {links.map((link) =>
               link.mega ? (
                 <div key={link.to} className="border-b border-white/10 py-3.5">
@@ -211,16 +218,16 @@ export default function Navbar() {
                     <div className="mt-3 space-y-1 border-s border-primary/40 pe-2 ps-4 text-base text-white/80">
                       {PRODUCT_NAV.map((node) => (
                         <div key={node.slug}>
-                          <Link to={`/products/${node.slug}`} className="block min-h-11 py-2.5 font-semibold">
-                            {node.title}
+                          <Link to={`${prefix}/products/${node.slug}`} className="block min-h-11 py-2.5 font-semibold">
+                            {productTitle(node.slug, node.title)}
                           </Link>
                           {node.children?.map((child) => (
                             <Link
                               key={child.slug}
-                              to={`/products/${child.slug}`}
+                              to={`${prefix}/products/${child.slug}`}
                               className="block min-h-10 py-2 pe-4 text-sm text-white/60"
                             >
-                              {child.title}
+                              {productTitle(child.slug, child.title)}
                             </Link>
                           ))}
                         </div>
@@ -239,12 +246,15 @@ export default function Navbar() {
               ),
             )}
             <Link
-              to="/contact"
+              to={`${prefix}/contact`}
               className="btn-press mt-8 inline-flex min-h-12 items-center justify-center bg-primary px-6 py-4 text-sm font-bold text-dark"
             >
-              اطلب عرض سعر
+              {t('requestQuote')}
             </Link>
-            <SocialLinks tone="light" className="mt-8" />
+            <div className="mt-8 flex items-center gap-3">
+              <SocialLinks tone="light" />
+              <LanguageSwitcher tone="light" />
+            </div>
           </nav>
         </div>
       )}

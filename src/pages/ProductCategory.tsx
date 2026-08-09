@@ -3,7 +3,10 @@ import { Link, useParams } from 'react-router-dom'
 import PageTitle from '../components/PageTitle'
 import ScrollReveal from '../components/ScrollReveal'
 import { getCatalogItem, getChildren, type CatalogBlock } from '../data/catalog'
+import { CATALOG_EN } from '../data/catalog.en'
 import { CATALOG_OVERRIDES } from '../data/catalogOverrides'
+import { useLanguage } from '../i18n/language'
+import type { Lang } from '../i18n/strings'
 
 function cleanTitle(title: string) {
   return title.replace(/\\+"/g, '').replace(/\s+/g, ' ').trim()
@@ -32,18 +35,22 @@ type ShowcaseCard = {
   index: number
 }
 
-function buildShowcases(gallery: string[], details: CatalogBlock[]): ShowcaseCard[] {
+function buildShowcases(gallery: string[], details: CatalogBlock[], lang: Lang): ShowcaseCard[] {
   const count = Math.max(gallery.length, details.length)
   const cards: ShowcaseCard[] = []
 
   for (let i = 0; i < count; i += 1) {
     const detail = details[i]
     const image = gallery[i]
-    const title = detail?.title || `صنف ${String(i + 1).padStart(2, '0')}`
+    const title = detail?.title || (lang === 'ar' ? `صنف ${String(i + 1).padStart(2, '0')}` : `Item ${String(i + 1).padStart(2, '0')}`)
     const lines =
       detail?.lines?.length
         ? detail.lines
-        : ['مواصفات وتعبئة حسب طلب العميل — تواصل معنا لعرض مخصص.']
+        : [
+            lang === 'ar'
+              ? 'مواصفات وتعبئة حسب طلب العميل — تواصل معنا لعرض مخصص.'
+              : 'Specifications and packing available on request — contact us for a custom quote.',
+          ]
 
     // Skip empty noise (no image and title-only duplicate)
     if (!image && lines.length === 1 && lines[0] === title) continue
@@ -62,17 +69,28 @@ function buildShowcases(gallery: string[], details: CatalogBlock[]): ShowcaseCar
 
 export default function ProductCategory() {
   const { slug } = useParams()
+  const { lang, t } = useLanguage()
+  const prefix = lang === 'en' ? '/en' : ''
   const raw = slug ? getCatalogItem(slug) : undefined
   const override = slug ? CATALOG_OVERRIDES[slug] : undefined
+  const enOverride = slug ? CATALOG_EN[slug] : undefined
 
   const item = useMemo(() => {
     if (!raw) return undefined
+    if (lang === 'en') {
+      return {
+        ...raw,
+        title: enOverride?.title || raw.title,
+        blurb: enOverride?.blurb || raw.blurb,
+        details: usefulDetails(raw.details || [], enOverride?.details),
+      }
+    }
     return {
       ...raw,
       blurb: override?.blurb || raw.blurb,
       details: usefulDetails(raw.details || [], override?.details),
     }
-  }, [raw, override])
+  }, [raw, override, enOverride, lang])
 
   const gallery = useMemo(() => {
     if (!item) return []
@@ -82,24 +100,26 @@ export default function ProductCategory() {
 
   const children = item ? getChildren(item.slug) : []
   const parent = item?.parent ? getCatalogItem(item.parent) : undefined
+  const parentTitle = parent ? (lang === 'en' ? CATALOG_EN[parent.slug]?.title || parent.title : parent.title) : undefined
 
   // Hub categories (with subcategories) rely on the children cards above as the
   // primary navigation — only render a per-image showcase grid here if there's
   // real, curated content for the hub itself (avoids recycling raw noisy text).
-  const showShowcase = children.length === 0 || Boolean(override?.details?.length)
+  const showShowcase =
+    children.length === 0 || Boolean((lang === 'en' ? enOverride?.details : override?.details)?.length)
 
   const showcases = useMemo(() => {
     if (!item || !showShowcase) return []
-    return buildShowcases(gallery, item.details)
-  }, [gallery, item, showShowcase])
+    return buildShowcases(gallery, item.details, lang)
+  }, [gallery, item, showShowcase, lang])
 
   if (!item) {
     return (
       <div className="mx-auto max-w-3xl px-5 py-40 text-center">
-        <PageTitle title="القسم غير موجود | سفنت ستار" />
-        <h1 className="display-title text-3xl">القسم غير موجود</h1>
-        <Link to="/products" className="mt-6 inline-flex font-bold text-secondary">
-          العودة للمنتجات
+        <PageTitle title={lang === 'ar' ? 'القسم غير موجود | سفنت ستار' : 'Category Not Found | Seventh Star'} />
+        <h1 className="display-title text-3xl">{lang === 'ar' ? 'القسم غير موجود' : 'Category Not Found'}</h1>
+        <Link to={`${prefix}/products`} className="mt-6 inline-flex font-bold text-secondary">
+          {t('backToProducts')}
         </Link>
       </div>
     )
@@ -107,7 +127,7 @@ export default function ProductCategory() {
 
   return (
     <div className="w-full max-w-full bg-paper text-ink">
-      <PageTitle title={`${item.title} | سفنت ستار`} description={item.blurb} />
+      <PageTitle title={`${item.title} | ${lang === 'ar' ? 'سفنت ستار' : 'Seventh Star'}`} description={item.blurb} />
 
       {/* Intro */}
       <section className="relative overflow-hidden border-b border-line bg-dark text-white">
@@ -122,7 +142,8 @@ export default function ProductCategory() {
         <div className="grain-overlay" aria-hidden />
         <div className="shell relative pb-12 pt-28 sm:pb-16 sm:pt-36">
           <p className="eyebrow break-safe">
-            منتجاتنا{parent ? ` · ${parent.title}` : ''}
+            {t('ourProductsEyebrow')}
+            {parentTitle ? ` · ${parentTitle}` : ''}
           </p>
           <h1 className="display-title mt-4 max-w-4xl text-[1.85rem] sm:mt-5 sm:text-4xl md:text-6xl">
             {item.title}
@@ -132,17 +153,17 @@ export default function ProductCategory() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
-              to="/contact"
+              to={`${prefix}/contact`}
               className="btn-press inline-flex min-h-12 items-center justify-center bg-primary px-7 py-4 text-sm font-bold text-dark transition hover:bg-white"
             >
-              اطلب عرض سعر
+              {t('requestQuote')}
             </Link>
             {parent && (
               <Link
-                to={`/products/${parent.slug}`}
+                to={`${prefix}/products/${parent.slug}`}
                 className="btn-press inline-flex min-h-12 items-center justify-center border border-white/30 px-7 py-4 text-sm font-bold text-white transition hover:border-white hover:bg-white hover:text-dark"
               >
-                العودة إلى {parent.title}
+                {lang === 'ar' ? `العودة إلى ${parentTitle}` : `Back to ${parentTitle}`}
               </Link>
             )}
           </div>
@@ -156,23 +177,26 @@ export default function ProductCategory() {
             <ScrollReveal>
               <div className="section-label">
                 <div>
-                  <p className="eyebrow">أقسام فرعية</p>
+                  <p className="eyebrow">{t('subcategories')}</p>
                   <h2 className="display-title text-2xl sm:text-3xl md:text-4xl">
-                    اختر الفئة المناسبة
+                    {lang === 'ar' ? 'اختر الفئة المناسبة' : 'Choose the Right Category'}
                   </h2>
                 </div>
               </div>
             </ScrollReveal>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {children.map((child, index) => {
-                const childOverride = CATALOG_OVERRIDES[child.slug]
+                const childEn = CATALOG_EN[child.slug]
+                const childAr = CATALOG_OVERRIDES[child.slug]
+                const childTitle = lang === 'en' ? childEn?.title || child.title : child.title
+                const childBlurb = lang === 'en' ? childEn?.blurb || child.blurb : childAr?.blurb || child.blurb
                 return (
                   <ScrollReveal key={child.slug} delay={(index % 3) * 60}>
-                    <Link to={`/products/${child.slug}`} className="product-card group">
+                    <Link to={`${prefix}/products/${child.slug}`} className="product-card group">
                       <div className="relative overflow-hidden bg-mist aspect-[5/4]">
                         <img
                           src={child.image}
-                          alt={child.title}
+                          alt={childTitle}
                           loading="lazy"
                           decoding="async"
                           className="img-zoom h-full w-full object-cover"
@@ -183,13 +207,13 @@ export default function ProductCategory() {
                       </div>
                       <div className="flex flex-1 flex-col p-5">
                         <h3 className="break-safe text-lg font-semibold text-secondary">
-                          {child.title}
+                          {childTitle}
                         </h3>
                         <p className="break-safe mt-2 flex-1 text-sm leading-7 text-stone">
-                          {childOverride?.blurb || child.blurb}
+                          {childBlurb}
                         </p>
                         <span className="mt-5 inline-flex w-fit border-b border-primary pb-1 text-sm font-bold text-primary transition group-hover:border-secondary group-hover:text-secondary">
-                          عرض القسم
+                          {t('viewCategory')}
                         </span>
                       </div>
                     </Link>
@@ -208,12 +232,14 @@ export default function ProductCategory() {
           <ScrollReveal>
             <div className="section-label">
               <div>
-                <p className="eyebrow">المعرض والمواصفات</p>
+                <p className="eyebrow">{lang === 'ar' ? 'المعرض والمواصفات' : 'Gallery & Specifications'}</p>
                 <h2 className="display-title text-2xl sm:text-3xl md:text-4xl">
-                  كل صنف بكارد ومواصفات واضحة
+                  {lang === 'ar' ? 'كل صنف بكارد ومواصفات واضحة' : 'Every Item with Its Own Card & Clear Specs'}
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-7 text-stone">
-                  كل صورة وكل مجموعة مواصفات معروضة بشكل مستقل — بسيط، واضح، وبتفاصيل توريد عملية.
+                  {lang === 'ar'
+                    ? 'كل صورة وكل مجموعة مواصفات معروضة بشكل مستقل — بسيط، واضح، وبتفاصيل توريد عملية.'
+                    : 'Every image and every specification set is presented independently — simple, clear, and with practical supply details.'}
                 </p>
               </div>
               <p className="display-en text-xs font-bold tracking-[0.14em] text-primary">
@@ -260,10 +286,10 @@ export default function ProductCategory() {
                         ))}
                       </ul>
                       <Link
-                        to="/contact"
+                        to={`${prefix}/contact`}
                         className="mt-5 inline-flex w-fit border-b border-primary pb-1 text-sm font-bold text-primary transition hover:border-secondary hover:text-secondary"
                       >
-                        اطلب هذا الصنف
+                        {t('requestThisItem')}
                       </Link>
                     </div>
                   </article>
@@ -273,8 +299,9 @@ export default function ProductCategory() {
           ) : (
             <div className="spec-card max-w-2xl">
               <p className="break-safe text-sm leading-7 text-stone">
-                {override?.emptyNote ||
-                  'تفاصيل المواصفات والتعبئة تُحدَّد حسب طلب العميل. تواصل معنا لعرض سعر مخصص.'}
+                {lang === 'ar'
+                  ? override?.emptyNote || 'تفاصيل المواصفات والتعبئة تُحدَّد حسب طلب العميل. تواصل معنا لعرض سعر مخصص.'
+                  : 'Packing and specification details are determined per customer request. Contact us for a custom quote.'}
               </p>
             </div>
           )}
@@ -287,16 +314,18 @@ export default function ProductCategory() {
         <div className="grain-overlay" aria-hidden />
         <div className="shell relative flex w-full min-w-0 flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="w-full min-w-0">
-            <p className="eyebrow">الخطوة التالية</p>
+            <p className="eyebrow">{t('nextStep')}</p>
             <h2 className="display-title mt-4 max-w-xl text-xl sm:text-2xl md:text-3xl">
-              جاهزون نجهّز عرض سعر لـ {item.title} حسب الكمية والمواصفات؟
+              {lang === 'ar'
+                ? `جاهزون نجهّز عرض سعر لـ ${item.title} حسب الكمية والمواصفات؟`
+                : `Ready for us to prepare a quote for ${item.title} based on quantity and specs?`}
             </h2>
           </div>
           <Link
-            to="/contact"
+            to={`${prefix}/contact`}
             className="btn-press inline-flex min-h-12 w-full shrink-0 items-center justify-center bg-primary px-7 py-4 text-sm font-bold text-dark transition hover:bg-white sm:w-auto"
           >
-            تواصل معنا
+            {t('contactUs')}
           </Link>
         </div>
       </section>

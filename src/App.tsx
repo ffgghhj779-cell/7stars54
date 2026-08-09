@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import WhatsAppButton from './components/WhatsAppButton'
+import { LanguageProvider } from './i18n/LanguageContext'
 import Home from './pages/Home'
 
 const About = lazy(() => import('./pages/About'))
@@ -15,22 +16,31 @@ const Products = lazy(() => import('./pages/Products'))
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Navbar />
-      <main className="w-full max-w-full">
-        <Suspense fallback={<div className="min-h-[60svh] bg-paper" />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:slug" element={<ProductCategory />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </main>
-      <Footer />
-      <WhatsAppButton />
+      <LanguageProvider>
+        <ScrollToTop />
+        <Navbar />
+        <main className="w-full max-w-full">
+          <Suspense fallback={<div className="min-h-[60svh] bg-paper" />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:slug" element={<ProductCategory />} />
+              <Route path="/contact" element={<Contact />} />
+
+              <Route path="/en" element={<Home />} />
+              <Route path="/en/about" element={<About />} />
+              <Route path="/en/products" element={<Products />} />
+              <Route path="/en/products/:slug" element={<ProductCategory />} />
+              <Route path="/en/contact" element={<Contact />} />
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer />
+        <WhatsAppButton />
+      </LanguageProvider>
     </BrowserRouter>
   )
 }
