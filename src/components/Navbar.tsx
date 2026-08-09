@@ -34,12 +34,20 @@ export default function Navbar() {
   useEffect(() => {
     setOpen(false)
     setProductsOpen(false)
+    // Clear any leftover scroll/touch lock (can freeze mobile Safari)
+    document.body.classList.remove('is-nav-locked')
+    document.body.style.overflow = ''
+    document.documentElement.style.overflow = ''
   }, [location.pathname])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    if (open) {
+      document.body.classList.add('is-nav-locked')
+    } else {
+      document.body.classList.remove('is-nav-locked')
+    }
     return () => {
-      document.body.style.overflow = ''
+      document.body.classList.remove('is-nav-locked')
     }
   }, [open])
 

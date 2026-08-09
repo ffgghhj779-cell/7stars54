@@ -40,7 +40,6 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overflow-x: hidden;
   max-width: 100%;
 }
 
@@ -49,19 +48,23 @@ body {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
+  position: relative;
   background: #f7f8f5;
   color: #0c0d0f;
   font-family: "IBM Plex Sans Arabic", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
 }
 
 #root {
   width: 100%;
   max-width: 100%;
-  /* Do NOT set overflow here — it breaks position:fixed navbar/WhatsApp */
+  position: relative;
+}
+
+body.is-nav-locked {
+  overflow: hidden;
 }
 
 ::selection {
@@ -256,6 +259,7 @@ img {
 }
 
 .premium-grid {
+  pointer-events: none;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
@@ -391,11 +395,6 @@ img {
     padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   }
 
-  img {
-    content-visibility: auto;
-  }
-
-  /* Prevent accidental horizontal page expansion without touching utilities */
   .shell,
   section {
     max-width: 100%;
