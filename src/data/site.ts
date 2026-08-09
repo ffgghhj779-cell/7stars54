@@ -50,7 +50,7 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = CATALOG
 
 export const SITE_COPY = {
   brandName: 'سفنت ستار',
-  brandSlogan: 'أغذية بجودة تستحق التصدير',
+  brandSlogan: 'جودة تستحق التصدير',
   homeHeadline: 'سفنت ستار',
   homeSub: 'أغذية بجودة تستحق التصدير.',
   homeLead:
@@ -60,7 +60,7 @@ export const SITE_COPY = {
   motto: 'إن القيام بعمل جديد يجلب قوة جديدة.',
 
   brandNameEn: 'Seventh Star',
-  brandSloganEn: 'Food quality worth exporting',
+  brandSloganEn: 'Export quality food',
   homeHeadlineEn: 'Seventh Star',
   homeSubEn: 'Food quality worth exporting.',
   homeLeadEn:

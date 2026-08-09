@@ -94,8 +94,8 @@ export default function Navbar() {
               className="brand-lockup__mark h-10 w-auto shrink-0 object-contain sm:h-12 lg:h-14"
             />
             <span className="brand-lockup__text min-w-0">
-              <span className={`brand-lockup__name block truncate ${brandNameTone}`}>{t('brandName')}</span>
-              <span className={`brand-lockup__slogan block truncate ${brandSloganTone}`}>
+              <span className={`brand-lockup__name block ${brandNameTone}`}>{t('brandName')}</span>
+              <span className={`brand-lockup__slogan block ${brandSloganTone}`}>
                 {t('brandSlogan')}
               </span>
             </span>

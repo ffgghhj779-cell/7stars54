@@ -44,7 +44,7 @@ export const STRINGS = {
   langEn: { ar: 'EN', en: 'EN' },
   langAr: { ar: 'ع', en: 'ع' },
   brandName: { ar: 'سفنت ستار', en: 'Seventh Star' },
-  brandSlogan: { ar: 'أغذية بجودة تستحق التصدير', en: 'Food quality worth exporting' },
+  brandSlogan: { ar: 'جودة تستحق التصدير', en: 'Export quality food' },
 } satisfies Record<string, Entry>
 
 export type StringKey = keyof typeof STRINGS
