@@ -171,7 +171,8 @@ img {
     transform: scale(0.975);
   }
 
-  .card-surface:active {
+  .card-surface:active,
+  .product-card:active {
     border-color: #d9ddd6;
     background-color: #ffffff;
     box-shadow: 0 18px 36px -28px rgba(12, 13, 15, 0.28);
@@ -307,18 +308,56 @@ img {
   font-variant-numeric: tabular-nums;
 }
 
-.card-surface {
-  border: 1px solid transparent;
+.product-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #d9ddd6;
+  background: #ffffff;
   transition:
     border-color 0.4s var(--ease-premium),
     box-shadow 0.4s var(--ease-premium),
-    background-color 0.4s var(--ease-premium);
+    transform 0.4s var(--ease-premium);
 }
 
-.card-surface:hover {
-  border-color: #d9ddd6;
-  box-shadow: 0 34px 60px -36px rgba(12, 13, 15, 0.22);
-  background-color: #ffffff;
+.product-card:hover {
+  border-color: #b8945f;
+  box-shadow: 0 28px 50px -34px rgba(12, 13, 15, 0.28);
+}
+
+.spec-card {
+  height: 100%;
+  border: 1px solid #d9ddd6;
+  background: #f7f8f5;
+  padding: 1.35rem 1.25rem;
+  transition:
+    border-color 0.35s var(--ease-premium),
+    background-color 0.35s var(--ease-premium);
+}
+
+.spec-card:hover {
+  border-color: rgba(184, 148, 95, 0.55);
+  background: #ffffff;
+}
+
+.section-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.section-label h2 {
+  margin: 0.65rem 0 0;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .product-card:active {
+    transform: scale(0.985);
+  }
 }
 
 @keyframes dropdown-in {
@@ -385,8 +424,8 @@ img {
     line-height: 1.18;
   }
 
-  .card-surface {
-    padding: 0.75rem;
+  .card-surface,
+  .product-card {
     max-width: 100%;
   }
 

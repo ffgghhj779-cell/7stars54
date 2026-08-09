@@ -90,12 +90,14 @@ export default function About() {
             <p className="eyebrow">قيمنا</p>
             <h2 className="display-title mt-5 text-3xl md:text-5xl">ما نلتزم به مع شركائنا</h2>
           </ScrollReveal>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
             {values.map((item, index) => (
               <ScrollReveal key={item.title} delay={index * 80}>
-                <div className="border-t border-line pt-6">
-                  <p className="display-en text-xs font-bold tracking-[0.18em] text-primary">0{index + 1}</p>
-                  <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+                <div className="spec-card">
+                  <p className="display-en text-xs font-bold tracking-[0.18em] text-primary">
+                    {String(index + 1).padStart(2, '0')}
+                  </p>
+                  <h3 className="mt-3 text-xl font-semibold text-secondary">{item.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-stone">{item.text}</p>
                 </div>
               </ScrollReveal>

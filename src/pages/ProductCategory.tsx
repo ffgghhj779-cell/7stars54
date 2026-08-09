@@ -1,23 +1,63 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import PageTitle from '../components/PageTitle'
-import { getCatalogItem, getChildren } from '../data/catalog'
+import ScrollReveal from '../components/ScrollReveal'
+import { getCatalogItem, getChildren, type CatalogBlock } from '../data/catalog'
 import { CATALOG_OVERRIDES } from '../data/catalogOverrides'
 
+function cleanTitle(title: string) {
+  return title.replace(/\\+"/g, '').replace(/\s+/g, ' ').trim()
+}
+
 function usefulDetails(
-  details: { title: string; lines: string[] }[],
-  override?: { title: string; lines: string[] }[],
+  details: CatalogBlock[],
+  override?: CatalogBlock[],
 ) {
   if (override?.length) return override
   return details
-    .filter((block) => {
-      const lines = block.lines.filter((line) => line && line !== block.title)
-      return lines.length > 0
-    })
     .map((block) => ({
-      ...block,
-      lines: block.lines.filter((line) => line && line !== block.title),
+      title: cleanTitle(block.title),
+      lines: block.lines
+        .map((line) => cleanTitle(line))
+        .filter((line) => line && line !== cleanTitle(block.title)),
     }))
+    .filter((block) => block.title.length > 1)
+}
+
+type ShowcaseCard = {
+  key: string
+  image?: string
+  title: string
+  lines: string[]
+  index: number
+}
+
+function buildShowcases(gallery: string[], details: CatalogBlock[]): ShowcaseCard[] {
+  const count = Math.max(gallery.length, details.length)
+  const cards: ShowcaseCard[] = []
+
+  for (let i = 0; i < count; i += 1) {
+    const detail = details[i]
+    const image = gallery[i]
+    const title = detail?.title || `صنف ${String(i + 1).padStart(2, '0')}`
+    const lines =
+      detail?.lines?.length
+        ? detail.lines
+        : ['مواصفات وتعبئة حسب طلب العميل — تواصل معنا لعرض مخصص.']
+
+    // Skip empty noise (no image and title-only duplicate)
+    if (!image && lines.length === 1 && lines[0] === title) continue
+
+    cards.push({
+      key: `${i}-${image || title}`,
+      image,
+      title,
+      lines: lines.slice(0, 8),
+      index: i + 1,
+    })
+  }
+
+  return cards
 }
 
 export default function ProductCategory() {
@@ -37,16 +77,16 @@ export default function ProductCategory() {
   const gallery = useMemo(() => {
     if (!item) return []
     const list = item.gallery?.length ? item.gallery : [item.image]
-    return Array.from(new Set(list)).slice(0, 12)
+    return Array.from(new Set(list)).slice(0, 16)
   }, [item])
 
-  const [active, setActive] = useState(0)
   const children = item ? getChildren(item.slug) : []
   const parent = item?.parent ? getCatalogItem(item.parent) : undefined
 
-  useEffect(() => {
-    setActive(0)
-  }, [slug])
+  const showcases = useMemo(() => {
+    if (!item) return []
+    return buildShowcases(gallery, item.details)
+  }, [gallery, item])
 
   if (!item) {
     return (
@@ -60,136 +100,189 @@ export default function ProductCategory() {
     )
   }
 
-  const mainImage = gallery[active] || item.image
-
   return (
     <div className="w-full max-w-full bg-paper text-ink">
       <PageTitle title={`${item.title} | سفنت ستار`} />
 
-      <section className="shell grid w-full max-w-full grid-cols-1 items-start gap-7 pb-14 pt-28 md:grid-cols-2 md:gap-14 md:pb-28 md:pt-32">
-        {/* Media first on mobile */}
-        <div className="order-1 w-full min-w-0 space-y-3 md:sticky md:top-28 md:order-2">
-          <div className="w-full overflow-hidden bg-mist aspect-[5/4]">
-            <img
-              key={mainImage}
-              src={mainImage}
-              alt={item.title}
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          {gallery.length > 1 && (
-            <div className="grid w-full grid-cols-4 gap-2 sm:grid-cols-5">
-              {gallery.map((src, index) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setActive(index)}
-                  className={`aspect-square w-full overflow-hidden bg-mist transition ${
-                    active === index ? 'ring-2 ring-primary ring-offset-1' : 'opacity-80 hover:opacity-100'
-                  }`}
-                  aria-label={`عرض صورة ${index + 1}`}
-                >
-                  <img
-                    src={src}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
+      {/* Intro */}
+      <section className="relative overflow-hidden border-b border-line bg-dark text-white">
+        <div className="absolute inset-0">
+          <img
+            src={item.image}
+            alt=""
+            className="h-full w-full object-cover opacity-30"
+          />
         </div>
-
-        <div className="order-2 w-full min-w-0 md:order-1">
+        <div className="premium-grid absolute inset-0 opacity-20" aria-hidden />
+        <div className="grain-overlay" aria-hidden />
+        <div className="shell relative pb-12 pt-28 sm:pb-16 sm:pt-36">
           <p className="eyebrow break-safe">
             منتجاتنا{parent ? ` · ${parent.title}` : ''}
           </p>
-          <h1 className="display-title mt-4 text-[1.7rem] leading-snug sm:mt-5 sm:text-4xl md:text-6xl">
+          <h1 className="display-title mt-4 max-w-4xl text-[1.85rem] sm:mt-5 sm:text-4xl md:text-6xl">
             {item.title}
           </h1>
-          <p className="break-safe mt-4 text-sm leading-7 text-stone sm:mt-6 sm:text-base sm:leading-8 md:text-lg">
+          <p className="break-safe mt-4 max-w-2xl text-sm leading-7 text-white/65 sm:mt-5 sm:text-base sm:leading-8">
             {item.blurb}
           </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/contact"
+              className="btn-press inline-flex min-h-12 items-center justify-center bg-primary px-7 py-4 text-sm font-bold text-dark transition hover:bg-white"
+            >
+              اطلب عرض سعر
+            </Link>
+            {parent && (
+              <Link
+                to={`/products/${parent.slug}`}
+                className="btn-press inline-flex min-h-12 items-center justify-center border border-white/30 px-7 py-4 text-sm font-bold text-white transition hover:border-white hover:bg-white hover:text-dark"
+              >
+                العودة إلى {parent.title}
+              </Link>
+            )}
+          </div>
+        </div>
+      </section>
 
-          {children.length > 0 && (
-            <div className="mt-8 border-t border-line pt-6 sm:mt-10 sm:pt-8">
-              <h2 className="text-lg font-semibold text-secondary">أقسام فرعية</h2>
-              <div className="mt-5 divide-y divide-line border-y border-line">
-                {children.map((child) => {
-                  const childOverride = CATALOG_OVERRIDES[child.slug]
-                  return (
-                    <Link
-                      key={child.slug}
-                      to={`/products/${child.slug}`}
-                      className="group flex min-h-14 w-full min-w-0 items-start justify-between gap-3 py-4 transition hover:bg-light/80 sm:gap-4 sm:py-5"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <p className="break-safe font-semibold group-hover:text-secondary">{child.title}</p>
-                        <p className="break-safe mt-1 line-clamp-2 text-sm leading-6 text-stone">
+      {/* Subcategories as cards */}
+      {children.length > 0 && (
+        <section className="section-y border-b border-line bg-light">
+          <div className="shell">
+            <ScrollReveal>
+              <div className="section-label">
+                <div>
+                  <p className="eyebrow">أقسام فرعية</p>
+                  <h2 className="display-title text-2xl sm:text-3xl md:text-4xl">
+                    اختر الفئة المناسبة
+                  </h2>
+                </div>
+              </div>
+            </ScrollReveal>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {children.map((child, index) => {
+                const childOverride = CATALOG_OVERRIDES[child.slug]
+                return (
+                  <ScrollReveal key={child.slug} delay={(index % 3) * 60}>
+                    <Link to={`/products/${child.slug}`} className="product-card group">
+                      <div className="relative overflow-hidden bg-mist aspect-[5/4]">
+                        <img
+                          src={child.image}
+                          alt={child.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="img-zoom h-full w-full object-cover"
+                        />
+                        <span className="stat-num absolute end-3 top-3 bg-dark/80 px-2.5 py-1 text-[11px] text-primary backdrop-blur-sm">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+                      <div className="flex flex-1 flex-col p-5">
+                        <h3 className="break-safe text-lg font-semibold text-secondary">
+                          {child.title}
+                        </h3>
+                        <p className="break-safe mt-2 flex-1 text-sm leading-7 text-stone">
                           {childOverride?.blurb || child.blurb}
                         </p>
+                        <span className="mt-5 inline-flex w-fit border-b border-primary pb-1 text-sm font-bold text-primary transition group-hover:border-secondary group-hover:text-secondary">
+                          عرض القسم
+                        </span>
                       </div>
-                      <span className="mt-1 shrink-0 text-primary transition group-hover:-translate-x-1">
-                        ←
-                      </span>
                     </Link>
-                  )
-                })}
-              </div>
+                  </ScrollReveal>
+                )
+              })}
             </div>
-          )}
+          </div>
+        </section>
+      )}
 
-          {item.details.length > 0 ? (
-            item.details.map((block, index) => (
-              <div key={`${block.title}-${index}`} className="mt-8 border-t border-line pt-6">
-                <h2 className="break-safe text-lg font-semibold text-secondary">{block.title}</h2>
-                <ul className="mt-3 space-y-2 text-sm leading-7 text-stone">
-                  {block.lines.map((line, lineIndex) => (
-                    <li key={`${index}-${lineIndex}`} className="break-safe">
-                      {line}
-                    </li>
-                  ))}
-                </ul>
+      {/* Each product / image as its own card with specs */}
+      <section className="section-y">
+        <div className="shell">
+          <ScrollReveal>
+            <div className="section-label">
+              <div>
+                <p className="eyebrow">المعرض والمواصفات</p>
+                <h2 className="display-title text-2xl sm:text-3xl md:text-4xl">
+                  كل صنف بكارد ومواصفات واضحة
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-7 text-stone">
+                  كل صورة وكل مجموعة مواصفات معروضة بشكل مستقل — بسيط، واضح، وبتفاصيل توريد عملية.
+                </p>
               </div>
-            ))
+              <p className="display-en text-xs font-bold tracking-[0.14em] text-primary">
+                {String(showcases.length).padStart(2, '0')} items
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {showcases.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {showcases.map((card, index) => (
+                <ScrollReveal key={card.key} delay={(index % 3) * 55}>
+                  <article className="product-card">
+                    <div className="relative overflow-hidden bg-mist aspect-[5/4]">
+                      {card.image ? (
+                        <img
+                          src={card.image}
+                          alt={card.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="img-zoom h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-secondary/10 px-6 text-center">
+                          <p className="display-en text-sm font-bold tracking-[0.14em] text-primary">
+                            SPECS
+                          </p>
+                        </div>
+                      )}
+                      <span className="stat-num absolute end-3 top-3 bg-dark/80 px-2.5 py-1 text-[11px] text-primary backdrop-blur-sm">
+                        {String(card.index).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <h3 className="break-safe text-lg font-semibold text-secondary">
+                        {card.title}
+                      </h3>
+                      <ul className="mt-3 flex-1 space-y-2 border-t border-line pt-3 text-sm leading-7 text-stone">
+                        {card.lines.map((line, lineIndex) => (
+                          <li key={`${card.key}-${lineIndex}`} className="break-safe flex gap-2">
+                            <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />
+                            <span>{line}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        to="/contact"
+                        className="mt-5 inline-flex w-fit border-b border-primary pb-1 text-sm font-bold text-primary transition hover:border-secondary hover:text-secondary"
+                      >
+                        اطلب هذا الصنف
+                      </Link>
+                    </div>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
           ) : (
-            <div className="mt-8 border-t border-line pt-6 sm:mt-10">
+            <div className="spec-card max-w-2xl">
               <p className="break-safe text-sm leading-7 text-stone">
                 {override?.emptyNote ||
                   'تفاصيل المواصفات والتعبئة تُحدَّد حسب طلب العميل. تواصل معنا لعرض سعر مخصص.'}
               </p>
             </div>
           )}
-
-          <div className="mt-8 flex w-full flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
-            {parent && (
-              <Link
-                to={`/products/${parent.slug}`}
-                className="btn-press inline-flex min-h-12 w-full items-center justify-center border border-line px-5 py-4 text-center text-sm font-bold text-ink transition hover:border-secondary sm:w-auto"
-              >
-                العودة إلى {parent.title}
-              </Link>
-            )}
-            <Link
-              to="/contact"
-              className="btn-press inline-flex min-h-12 w-full items-center justify-center bg-secondary px-5 py-4 text-center text-sm font-bold text-white transition hover:bg-primary hover:text-dark sm:w-auto"
-            >
-              اطلب عرض سعر لهذا القسم
-            </Link>
-          </div>
         </div>
       </section>
 
+      {/* CTA */}
       <section className="relative overflow-hidden bg-dark text-white section-y-sm">
         <div className="grain-overlay" aria-hidden />
         <div className="shell relative flex w-full min-w-0 flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="w-full min-w-0">
-            <p className="eyebrow">اطلب الآن</p>
-            <h2 className="display-title mt-4 max-w-lg text-xl sm:text-2xl md:text-3xl">
-              مهتم بـ{item.title}؟ نجهّز لك عرض سعر بالمواصفات والكمية المطلوبة.
+            <p className="eyebrow">الخطوة التالية</p>
+            <h2 className="display-title mt-4 max-w-xl text-xl sm:text-2xl md:text-3xl">
+              جاهزون نجهّز عرض سعر لـ {item.title} حسب الكمية والمواصفات؟
             </h2>
           </div>
           <Link

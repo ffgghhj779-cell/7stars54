@@ -40,16 +40,16 @@ export default function Contact() {
       <section className="section-y">
         <div className="shell grid gap-14 md:grid-cols-[0.85fr_1.15fr]">
           <ScrollReveal>
-            <div className="space-y-8 border-t border-primary/40 pt-8">
-              <div>
-                <p className="text-[11px] font-bold tracking-[0.16em] text-stone">العنوان</p>
+            <div className="space-y-4">
+              <div className="spec-card">
+                <p className="text-[11px] font-bold tracking-[0.16em] text-primary">العنوان</p>
                 <p className="mt-2 text-sm leading-7">{CONTACT.addressAr}</p>
                 <p className="display-en mt-1 text-xs text-stone" dir="ltr">
                   {CONTACT.addressEn}
                 </p>
               </div>
-              <div>
-                <p className="text-[11px] font-bold tracking-[0.16em] text-stone">الهاتف</p>
+              <div className="spec-card">
+                <p className="text-[11px] font-bold tracking-[0.16em] text-primary">الهاتف</p>
                 <div className="mt-2 space-y-1 text-sm">
                   {CONTACT.phones.map((phone) => (
                     <a key={phone} href={`tel:${phone}`} className="block hover:text-secondary" dir="ltr">
@@ -58,8 +58,8 @@ export default function Contact() {
                   ))}
                 </div>
               </div>
-              <div>
-                <p className="text-[11px] font-bold tracking-[0.16em] text-stone">البريد</p>
+              <div className="spec-card">
+                <p className="text-[11px] font-bold tracking-[0.16em] text-primary">البريد</p>
                 <a
                   href={`mailto:${CONTACT.email}`}
                   className="mt-2 block text-sm hover:text-secondary"
@@ -68,8 +68,8 @@ export default function Contact() {
                   {CONTACT.email}
                 </a>
               </div>
-              <div>
-                <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-stone">السوشيال</p>
+              <div className="spec-card">
+                <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-primary">السوشيال</p>
                 <SocialLinks tone="dark" />
               </div>
             </div>

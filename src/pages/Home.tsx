@@ -11,11 +11,8 @@ import { SITE_COPY, WUILT } from '../data/site'
 
 function ProductCard({ item, index }: { item: HomeCard; index: number }) {
   return (
-    <Link
-      to={`/products/${item.slug}`}
-      className="card-surface group flex h-full flex-col p-3 sm:p-4"
-    >
-      <div className={`relative overflow-hidden bg-mist aspect-[5/4] ${index % 2 === 1 ? 'md:mt-10' : ''}`}>
+    <Link to={`/products/${item.slug}`} className="product-card group">
+      <div className="relative overflow-hidden bg-mist aspect-[5/4]">
         <img
           src={item.image}
           alt={item.title}
@@ -23,14 +20,14 @@ function ProductCard({ item, index }: { item: HomeCard; index: number }) {
           decoding="async"
           className="img-zoom h-full w-full object-cover"
         />
-        <span className="stat-num absolute end-3 top-3 flex h-8 w-8 items-center justify-center bg-dark/80 text-[11px] text-primary backdrop-blur-sm sm:h-9 sm:w-9 sm:text-xs">
-          0{index + 1}
+        <span className="stat-num absolute end-3 top-3 bg-dark/80 px-2.5 py-1 text-[11px] text-primary backdrop-blur-sm">
+          {String(index + 1).padStart(2, '0')}
         </span>
       </div>
-      <div className="flex flex-1 flex-col pt-4 sm:pt-5">
+      <div className="flex flex-1 flex-col p-5">
         <h3 className="text-base font-semibold text-secondary sm:text-lg md:text-xl">{item.title}</h3>
         <p className="mt-2 flex-1 text-sm leading-7 text-stone">{item.description}</p>
-        <span className="mt-4 inline-flex w-fit border-b border-primary pb-1 text-sm font-bold text-primary transition group-hover:border-secondary group-hover:text-secondary sm:mt-5">
+        <span className="mt-5 inline-flex w-fit border-b border-primary pb-1 text-sm font-bold text-primary transition group-hover:border-secondary group-hover:text-secondary">
           المزيد
         </span>
       </div>
