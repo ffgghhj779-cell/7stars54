@@ -351,6 +351,11 @@ html[dir="ltr"] .hero-media::after {
   backface-visibility: hidden;
 }
 
+.hero-video {
+  transform: translateZ(0) scale(1.04);
+  backface-visibility: hidden;
+}
+
 @keyframes hero-drift {
   from {
     transform: scale(1.01);
@@ -559,6 +564,10 @@ html[dir="ltr"] .hero-media::after {
 @media (prefers-reduced-motion: reduce) {
   .hero-image {
     animation: none;
+  }
+
+  .hero-video {
+    transform: none;
   }
 
   .img-zoom,

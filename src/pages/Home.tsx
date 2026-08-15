@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageTitle from '../components/PageTitle'
 import ScrollReveal from '../components/ScrollReveal'
@@ -11,6 +12,65 @@ import {
 import { SITE_COPY, WUILT } from '../data/site'
 import { useLanguage } from '../i18n/language'
 import { type Lang } from '../i18n/strings'
+
+function HeroMedia({ poster }: { poster: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const [reduceMotion, setReduceMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduceMotion(mq.matches)
+    const onChange = () => setReduceMotion(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    if (reduceMotion) return
+    const video = videoRef.current
+    const wrap = wrapRef.current
+    if (!video || !wrap) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) void video.play().catch(() => undefined)
+        else video.pause()
+      },
+      { threshold: 0.2 },
+    )
+    io.observe(wrap)
+    return () => io.disconnect()
+  }, [reduceMotion])
+
+  return (
+    <div ref={wrapRef} className="hero-media absolute inset-0 bg-dark">
+      {reduceMotion ? (
+        <img
+          src={poster}
+          alt=""
+          className="h-full w-full object-cover object-center"
+          width={1920}
+          height={1080}
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          className="hero-video h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={poster}
+          aria-hidden
+        >
+          <source src="/videos/hero.webm" type="video/webm" />
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+      )}
+    </div>
+  )
+}
 
 function ProductCard({ item, index, lang, prefix }: { item: HomeCard; index: number; lang: Lang; prefix: string }) {
   const title = lang === 'en' ? item.titleEn || item.title : item.title
@@ -100,17 +160,7 @@ export default function Home() {
       />
 
       <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-dark text-white">
-        <div className="hero-media absolute inset-0">
-          <img
-            src={WUILT.hero}
-            alt=""
-            className="hero-image h-full w-full object-cover object-[center_40%]"
-            width={1536}
-            height={1024}
-            fetchPriority="high"
-            decoding="sync"
-          />
-        </div>
+        <HeroMedia poster={WUILT.heroPoster} />
         <div className="premium-grid absolute inset-0 opacity-35" aria-hidden />
         <div className="grain-overlay" aria-hidden />
         <div className="glow-spot -end-40 top-0 hidden h-[560px] w-[560px] opacity-70 md:block" aria-hidden />
