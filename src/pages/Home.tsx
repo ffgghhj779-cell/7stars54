@@ -64,8 +64,8 @@ function HeroMedia({ poster }: { poster: string }) {
           poster={poster}
           aria-hidden
         >
-          <source src="/videos/hero.webm" type="video/webm" />
-          <source src="/videos/hero.mp4" type="video/mp4" />
+          <source src="/videos/hero.webm?v=20260815" type="video/webm" />
+          <source src="/videos/hero.mp4?v=20260815" type="video/mp4" />
         </video>
       )}
     </div>
