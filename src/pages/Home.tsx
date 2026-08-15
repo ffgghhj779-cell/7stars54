@@ -31,41 +31,56 @@ function HeroMedia({ poster }: { poster: string }) {
     const video = videoRef.current
     const wrap = wrapRef.current
     if (!video || !wrap) return
+    video.muted = true
+    video.defaultMuted = true
+    video.playsInline = true
+    video.setAttribute('playsinline', 'true')
+    video.setAttribute('webkit-playsinline', 'true')
+    const tryPlay = () => void video.play().catch(() => undefined)
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) void video.play().catch(() => undefined)
+        if (entry.isIntersecting) tryPlay()
         else video.pause()
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     )
     io.observe(wrap)
-    return () => io.disconnect()
+    video.addEventListener('canplay', tryPlay)
+    tryPlay()
+    return () => {
+      video.removeEventListener('canplay', tryPlay)
+      io.disconnect()
+    }
   }, [reduceMotion])
 
   return (
-    <div ref={wrapRef} className="hero-media absolute inset-0 bg-dark">
+    <div ref={wrapRef} className="hero-media absolute inset-0 overflow-hidden bg-dark">
       {reduceMotion ? (
         <img
           src={poster}
           alt=""
-          className="h-full w-full object-cover object-center"
+          className="hero-video"
           width={1920}
           height={1080}
         />
       ) : (
         <video
           ref={videoRef}
-          className="hero-video h-full w-full object-cover"
+          className="hero-video"
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={poster}
+          width={1920}
+          height={1080}
+          disablePictureInPicture
+          disableRemotePlayback
           aria-hidden
         >
-          <source src="/videos/hero.webm?v=20260815" type="video/webm" />
-          <source src="/videos/hero.mp4?v=20260815" type="video/mp4" />
+          <source src="/videos/hero.mp4?v=20260815m2" type="video/mp4" />
+          <source src="/videos/hero.webm?v=20260815m2" type="video/webm" />
         </video>
       )}
     </div>
@@ -159,7 +174,7 @@ export default function Home() {
         }
       />
 
-      <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-dark text-white">
+      <section className="relative isolate flex min-h-[100dvh] items-end overflow-hidden bg-dark text-white">
         <HeroMedia poster={WUILT.heroPoster} />
         <div className="premium-grid absolute inset-0 opacity-35" aria-hidden />
         <div className="grain-overlay" aria-hidden />

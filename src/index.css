@@ -309,10 +309,16 @@ html[dir="rtl"] .brand-lockup__slogan {
   text-transform: uppercase;
 }
 
+.hero-media {
+  overflow: hidden;
+}
+
 .hero-media::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background:
     linear-gradient(270deg, rgba(12, 13, 15, 0.88) 0%, rgba(38, 73, 54, 0.72) 46%, rgba(12, 13, 15, 0.22) 78%),
     linear-gradient(0deg, rgba(12, 13, 15, 0.55) 0%, transparent 48%);
@@ -325,21 +331,15 @@ html[dir="ltr"] .hero-media::after {
 }
 
 @media (max-width: 767px) {
-  .hero-media::after {
-    background: linear-gradient(
-      0deg,
-      rgba(12, 13, 15, 0.94) 0%,
-      rgba(38, 73, 54, 0.78) 48%,
-      rgba(12, 13, 15, 0.45) 100%
-    );
-  }
-
+  .hero-media::after,
   html[dir="ltr"] .hero-media::after {
+    /* Keep type readable at the bottom, leave the factory visible above it */
     background: linear-gradient(
       0deg,
-      rgba(12, 13, 15, 0.94) 0%,
-      rgba(38, 73, 54, 0.78) 48%,
-      rgba(12, 13, 15, 0.45) 100%
+      rgba(12, 13, 15, 0.78) 0%,
+      rgba(12, 13, 15, 0.32) 36%,
+      rgba(12, 13, 15, 0.12) 68%,
+      rgba(12, 13, 15, 0.22) 100%
     );
   }
 }
@@ -352,7 +352,17 @@ html[dir="ltr"] .hero-media::after {
 }
 
 .hero-video {
-  transform: translateZ(0) scale(1.04);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transform: translate(-50%, -50%) scale(1.02);
   backface-visibility: hidden;
 }
 
@@ -497,6 +507,12 @@ html[dir="ltr"] .hero-media::after {
 }
 
 @media (max-width: 767px) {
+  .hero-video {
+    /* Extra zoom crops the 16:9 story on portrait and softens it */
+    transform: translate(-50%, -50%);
+    object-position: center 42%;
+  }
+
   .hero-image {
     animation: none;
   }
@@ -567,7 +583,7 @@ html[dir="ltr"] .hero-media::after {
   }
 
   .hero-video {
-    transform: none;
+    transform: translate(-50%, -50%);
   }
 
   .img-zoom,
